@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tns.espapp.fragment.CheckListSavedFragment">
+
+
+    <TextView
+        android:textSize="18dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/set_formane"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical"
+        android:id="@+id/table_main2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_marginTop="30dp"
+        android:text="Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <ListView
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:background="@drawable/edit_text_design"
+        android:id="@+id/listview_chk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone" />
+
+</LinearLayout>
