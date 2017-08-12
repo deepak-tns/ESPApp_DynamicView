@@ -5,14 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-  <!--  <android.support.v7.widget.CardView
 
-        app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/lightgray"
-        app:cardElevation="4dp"
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">-->
 
     <LinearLayout
         android:layout_marginBottom="10dp"
@@ -24,23 +17,22 @@
         android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/tv_name"
-            android:layout_gravity="center"
             android:text="Name"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <FrameLayout
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_weight="2"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
             <EditText
@@ -86,6 +78,38 @@
 
         </FrameLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/relative_attachment"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+
+                android:textColor="@color/black"
+                android:text="Attachment"
+                android:id="@+id/attachmentTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+
+                android:src="@android:drawable/ic_input_add"
+                android:id="@+id/iv_add_attachment"
+                android:layout_alignParentRight="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+        </RelativeLayout>
+
+
+
+
+
         <Button
             android:visibility="gone"
             android:id="@+id/btn_save"
@@ -99,125 +123,12 @@
 
     </LinearLayout>
 
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_dob"
-                android:text="Date of Birth"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:padding="5dp"
-               android:paddingLeft="2dp"
-                android:background="@drawable/edt_border"
-                android:textSize="12dp"
-                android:id="@+id/edt_dob"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:visibility="gone"
-                android:focusable="false"
-                android:background="@null"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="Reporting Head"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:focusable="false"
-                android:background="@null"
-                android:textSize="12dp"
-                android:id="@+id/rp_head"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="Status"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <CheckBox
-                android:layout_weight="2"
-                android:id="@+id/ck_sts"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                />
-
-        </LinearLayout>
-
-
-    <!--    <LinearLayout
-            android:visibility="visible"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-               android:layout_gravity="center"
-                android:text="Gender"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <RadioGroup
-                android:orientation="horizontal"
-                android:layout_weight="2"
-                android:id="@+id/radioSex"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" >
-
-                <RadioButton
-                    android:id="@+id/radioMale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Male"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:id="@+id/radioFemale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Female" />
-
-            </RadioGroup>
-
-        </LinearLayout>-->
 
 
     </LinearLayout>
 
-   <!-- </android.support.v7.widget.CardView>-->
+
 
 
 </LinearLayout>

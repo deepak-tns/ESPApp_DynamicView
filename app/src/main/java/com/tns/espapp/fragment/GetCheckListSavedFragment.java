@@ -69,8 +69,8 @@ public class GetCheckListSavedFragment extends Fragment {
     private CheckBox cb;
     private CheckBox chk_selectall;
     private Button sendButton;
-    private ArrayList<String> checkedValueArrayList = new ArrayList<>();
 
+    private ArrayList<String> checkedValueArrayList = new ArrayList<>();
     private ArrayList<CheckBox> checkBoxArrayList = new ArrayList<>();
 
 
@@ -84,6 +84,8 @@ public class GetCheckListSavedFragment extends Fragment {
     List<String> keyFormlist = new ArrayList<>();
 
     List<String> keyFormlist_holder = new ArrayList<>();
+
+
     List<ChecklistData> getFormlist;
 
     SharedPreferences sharedpreferences;
@@ -135,13 +137,14 @@ public class GetCheckListSavedFragment extends Fragment {
 
                 }
 
-         /*
+
+
                 Set<String> primesWithoutDuplicates = new LinkedHashSet<String>(keyFormlist); // now let's clear the ArrayList so that we can copy all elements from LinkedHashSet primes.clear(); // copying elements but without any duplicates primes.addAll(primesWithoutDuplicates);
 
                 keyFormlist.clear(); // copying elements but without any duplicates primes.addAll(primesWithoutDuplicates);
                 keyFormlist.addAll(primesWithoutDuplicates);
-        */
-                int keysize = keyFormlist.size();
+
+
                 keyFormlist_holder.add("Status");
 
                 setView(v, keyFormlist_holder, valueFormlist);
@@ -184,7 +187,6 @@ public class GetCheckListSavedFragment extends Fragment {
             label_date.setLayoutParams(params);
             label_date.setGravity(Gravity.CENTER);
             label_date.setBackgroundResource(R.drawable.edit_text_design_table);
-            ;
             label_date.setId(20 + i);
             label_date.setPadding(0, 5, 0, 5);
             label_date.setText(key.get(i));
@@ -259,7 +261,6 @@ public class GetCheckListSavedFragment extends Fragment {
 
                         }
                         if (view instanceof CheckBox) {
-
 
                         }
 
@@ -338,7 +339,6 @@ public class GetCheckListSavedFragment extends Fragment {
                                         }
                                     }
 
-
                                 }
                             }
                         }
@@ -354,34 +354,39 @@ public class GetCheckListSavedFragment extends Fragment {
     }
     private void printCheckedValue()
     {
+
+
         for(int i =0;i<checkedValueArrayList.size();i++)
         {
+
           //  Utility.displayMessage(getContext(),checkedValueArrayList.get(i));
         }
     }
 
 
     private void createJSON(List<String> key, List<String> value) {
-
-
-         key.removeAll(Arrays.asList("Status"));
+        int count =0;
+        key.removeAll(Arrays.asList("Status"));
+             setSize = value.size()/key.size();
 
 
         final JSONObject jsonObject = new JSONObject();
 
         try {
 
-
-
             JSONArray obj = new JSONArray();
             try {
-                for(int i = 0; i <value.size() ; i++) {
+                for(int i = 0; i <setSize ; i++) {
+
                     // 1st object
                     JSONObject list1 = new JSONObject();
+                           int   j=count;
+
+                        for( j = 0; j <key.size(); j++) {
 
 
-                        for(int j = 0; j <key.size(); j++) {
-                            list1.put(key.get(j), value.get(j));
+                            list1.put(key.get(j), value.get(count));
+                            count++;
                         }
 
                     list1.put("Formno",setFormname);

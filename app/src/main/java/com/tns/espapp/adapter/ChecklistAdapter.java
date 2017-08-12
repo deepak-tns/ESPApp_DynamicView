@@ -47,10 +47,7 @@ public class ChecklistAdapter  extends RecyclerView.Adapter<ChecklistAdapter.MyV
             radioSexGroup = (RadioGroup)view. findViewById(R.id.radio_boolean);
             name_value = (EditText) view.findViewById(R.id.edt_name);
             name_key = (TextView)view .findViewById(R.id.tv_name);
-            tv_dob =(TextView)view .findViewById(R.id.tv_dob);
-            edt_dob = (EditText) view.findViewById(R.id.edt_dob);
-            reporting_head = (TextView) view.findViewById(R.id.rp_head);
-            cb = (CheckBox) view.findViewById(R.id.ck_sts);
+
         }
 
 

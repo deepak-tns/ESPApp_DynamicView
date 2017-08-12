@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.tns.espapp.AppConstraint;
+import com.tns.espapp.ListviewHelper;
 import com.tns.espapp.R;
 import com.tns.espapp.Utility.AppSingleton;
 import com.tns.espapp.adapter.CheckListAdapterListview;
@@ -92,6 +94,7 @@ public class CheckListFragment extends Fragment {
     DatabaseHandler db;
     Spinner spin;
     String selectFormSpinner;
+    RelativeLayout relative_attachment;
 
     public static CheckListFragment newInstance_CheckListFragment(int index, String value) {
         CheckListFragment f = new CheckListFragment();
@@ -117,6 +120,8 @@ public class CheckListFragment extends Fragment {
         //spin.setOnItemSelectedListener(this);
         listView = (ListView)v.findViewById(R.id.listview_chk);
 
+        relative_attachment =(RelativeLayout) v.findViewById(R.id.relative_attachment);
+
         cal = Calendar.getInstance();
         day = cal.get(Calendar.DAY_OF_MONTH);
         month = cal.get(Calendar.MONTH);
@@ -138,6 +143,8 @@ public class CheckListFragment extends Fragment {
                 lstadapter = new CheckListAdapterListview(getActivity(), R.layout.checklist_data_adapter, getFormlist);
 
                 listView.setAdapter(lstadapter);
+
+
                 lstadapter.notifyDataSetChanged();
                 if(getFormlist.size() >0) {
 
@@ -394,6 +401,7 @@ public class CheckListFragment extends Fragment {
             lstadapter = new CheckListAdapterListview(getActivity(), R.layout.checklist_data_adapter, check_list) ;
 
             listView.setAdapter(lstadapter);
+            ListviewHelper.getListViewSize(listView);
             lstadapter.notifyDataSetChanged();
 
 

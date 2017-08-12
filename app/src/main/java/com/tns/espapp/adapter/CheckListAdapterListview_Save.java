@@ -96,10 +96,7 @@ public class CheckListAdapterListview_Save extends ArrayAdapter {
         linearLayout_boolean =(LinearLayout) convertView.findViewById(R.id.linear_type_boolean);
         name_value = (EditText) convertView.findViewById(R.id.edt_name);
         name_key = (TextView) convertView.findViewById(R.id.tv_name);
-        tv_dob = (TextView) convertView.findViewById(R.id.tv_dob);
-        edt_dob = (EditText) convertView.findViewById(R.id.edt_dob);
-        reporting_head = (TextView) convertView.findViewById(R.id.rp_head);
-        cb = (CheckBox) convertView.findViewById(R.id.ck_sts);
+
 
 
 
@@ -133,7 +130,7 @@ public class CheckListAdapterListview_Save extends ArrayAdapter {
             });
         }
 
-            if (checklistData.getDataType().equalsIgnoreCase("Boolean")) {
+          /*  if (checklistData.getDataType().equalsIgnoreCase("Boolean")) {
 
                 name_value.setVisibility(View.GONE);
                 linearLayout_boolean.setVisibility(View.VISIBLE);
@@ -152,7 +149,7 @@ public class CheckListAdapterListview_Save extends ArrayAdapter {
                     }
                 });
             }
-
+*/
 
             if( name_value != null){
                 name_value.addTextChangedListener(new TextWatcher() {

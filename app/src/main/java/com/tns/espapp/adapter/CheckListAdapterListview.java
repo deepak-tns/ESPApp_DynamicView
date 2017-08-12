@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tns.espapp.R;
@@ -62,8 +63,9 @@ public class CheckListAdapterListview extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-         TextView name_key, tv_dob, reporting_head;
-         final EditText name_value, edt_dob;
+         TextView name_key ;
+         final EditText name_value;
+        RelativeLayout relative_attachment;
 
          CheckBox cb;
          LinearLayout linearLayout_boolean;
@@ -89,10 +91,9 @@ public class CheckListAdapterListview extends ArrayAdapter {
             linearLayout_boolean =(LinearLayout) convertView.findViewById(R.id.linear_type_boolean);
             name_value = (EditText) convertView.findViewById(R.id.edt_name);
             name_key = (TextView) convertView.findViewById(R.id.tv_name);
-            tv_dob = (TextView) convertView.findViewById(R.id.tv_dob);
-            edt_dob = (EditText) convertView.findViewById(R.id.edt_dob);
-            reporting_head = (TextView) convertView.findViewById(R.id.rp_head);
-            cb = (CheckBox) convertView.findViewById(R.id.ck_sts);
+
+      //  relative_attachment =(RelativeLayout) convertView.findViewById(R.id.relative_attachment);
+
 
 
 
@@ -129,7 +130,8 @@ public class CheckListAdapterListview extends ArrayAdapter {
                     }
                 });
             }
-                if (checklistData.getDataType().equalsIgnoreCase("Boolean")) {
+
+           /*     if (checklistData.getDataType().equalsIgnoreCase("Boolean")) {
 
                     name_value.setVisibility(View.GONE);
                     linearLayout_boolean.setVisibility(View.VISIBLE);
@@ -148,7 +150,7 @@ public class CheckListAdapterListview extends ArrayAdapter {
                         }
                     });
                 }
-
+*/
 
 
 
