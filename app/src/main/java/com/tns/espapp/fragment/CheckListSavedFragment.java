@@ -9,6 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,10 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,10 +48,12 @@ import com.tns.espapp.DrawBitmapAll;
 import com.tns.espapp.ListviewHelper;
 import com.tns.espapp.R;
 import com.tns.espapp.activity.RealPathUtil;
+import com.tns.espapp.database.CounterSetting;
 import com.tns.espapp.database.FeedbackRecordData;
 import com.tns.espapp.database.FinalCheckListData;
 import com.tns.espapp.database.ChecklistData;
 import com.tns.espapp.database.DatabaseHandler;
+import com.tns.espapp.database.GetSet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,6 +63,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -83,38 +89,34 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
     private TableLayout tl;
     private TableRow tr;
 
-
     List<ChecklistData> getFormlist;
-
     ArrayList <String>  listkey;
 
-    private int PICK_ATTACHMENT_REQUEST = 1;
-    private int ADD_CAPTURE_IMAGE = 2;
+    private int PICK_ATTACHMENT_REQUEST = 11;
+    private int ADD_CAPTURE_IMAGE = 12;
 
-    int count_addAttachment = 0;
+
     int count_capture_Image = 0;
+
     int BTNCONSTANT = 2;
+
+    // Temp save listItem position
+    int positions;
 
     private String realPath;
     private String stgetImage;
 
-    private AttachmentAdapter adapter_attachment;
-    private ArrayList<String> attachment_ImageList = new ArrayList();
 
-    private ArrayList<String> capture_ImageList  = new ArrayList();
-    private ArrayList<AttachmentData> attachmentDatas = new ArrayList<>();
+
      String current_date;
-    ArrayList<String> arrayList;
+     ArrayList<String> arrayList;
+    FinalCheckListAdapterListview_Save finalCheckListAdapterListview_save;
 
-    private ListView lst_attachment;
 
     int t_id = 104;
     Button   btn_send;
-    ImageView iv_addAttachment;
     List<EditText> allEds = new ArrayList<EditText>();
-    List<RadioGroup> allRGs = new ArrayList<RadioGroup>();
-
-    ListView finallistview;
+     ListView finallistview;
      LinearLayout linearLayoutphotos;
 
     HashMap<String,List<EditText>> hashMap_edt = new HashMap();
@@ -124,8 +126,15 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
     SharedPreferences sharedpreferences;
 
-    TextView ivPhotos1,ivPhotos2,ivPhotos3,ivPhotos4,ivPhotos5;
+    TextView ivPhotos1;
+    private String photos1,photos2,photos3,photos4,photos5,photos6,photos7,photos8,photos9,photos10,photos11,photos12,photos13,photos14,photos15,photos16,photos17,photos18,photos19,photos20,photos21,photos22,photos23,photos24,photos25,photos26;
+    private int count1,count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14,count15,count16,count17,count18,count19,count20,count21,count22,count23,count24,count25,count26;
 
+
+
+
+    View list_header;
+    List<FinalCheckListData> fvalue;
     String setFormname;
     public CheckListSavedFragment() {
         // Required empty public constructor
@@ -140,8 +149,8 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
         TextView textview =(TextView)v.findViewById(R.id.set_formane);
         finallistview=(ListView)v.findViewById(R.id.final_listview);
+         list_header = (View)v. findViewById(R.id.lay_header);
 
-        iv_addAttachment = (ImageView) v.findViewById(R.id.iv_add_attachment);
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
         Calendar cal = Calendar.getInstance();
@@ -151,7 +160,9 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
         sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         btn_send =(Button)v.findViewById(R.id.btn_send) ;
+
         btn_send.setOnClickListener(this);
+
         cal = Calendar.getInstance();
         day = cal.get(Calendar.DAY_OF_MONTH);
         month = cal.get(Calendar.MONTH);
@@ -171,16 +182,21 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
         initLinearBind(v, getFormlist);
 
 
-        List<FinalCheckListData> value = new ArrayList<>();
-        value.add(new FinalCheckListData(1,"new Site","","","yes"));
-        value.add(new FinalCheckListData(2,"everything in Site","","","yes"));
-
-       setView_Multiphotos(v,value);
 
 
- /*       FinalCheckListAdapterListview_Save finalCheckListAdapterListview_save = new FinalCheckListAdapterListview_Save(getActivity(),R.layout.final_checklist_data_adapter,value);
+         fvalue = new ArrayList<>();
+        fvalue.add(new FinalCheckListData(1,"new Site","","","yes"));
+        fvalue.add(new FinalCheckListData(2,"everything in Site","","","yes"));
+        if(fvalue.size() > 0)
+        {
+            list_header.setVisibility(View.VISIBLE);
+        }
+
+      // setView_Multiphotos(v,value);
+
+        finalCheckListAdapterListview_save = new FinalCheckListAdapterListview_Save(getActivity(),R.layout.final_checklist_data_adapter,fvalue);
          finallistview.setAdapter(finalCheckListAdapterListview_save);
-           finalCheckListAdapterListview_save.notifyDataSetChanged();*/
+           finalCheckListAdapterListview_save.notifyDataSetChanged();
 
 
         return v;
@@ -338,7 +354,7 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
                 ActionBar.LayoutParams.FILL_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT));
 
-        lst_attachment = new ListView(getActivity());
+       ListView lst_attachment = new ListView(getActivity());
 
             for (int k = 0; k < value.size(); k++) {
 
@@ -492,8 +508,6 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
                         final View view = tr.getChildAt(i);
                         if (view instanceof TextView) {
                             companyTV = (TextView) tr.getChildAt(i);
-
-
                         }
                         if (view instanceof CheckBox) {
 
@@ -537,7 +551,7 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
     @Override
-    public void onClick(final View v) {
+    public void onClick( View v) {
 
         boolean b = true;
         final ArrayList<String>  listvalue = new ArrayList<>();
@@ -726,7 +740,6 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
             if (requestCode == PICK_ATTACHMENT_REQUEST) {
 
                 Uri uri = data.getData();
-
                 try
                 {
                     realPath = RealPathUtil.getPath_File_Attacah(getActivity(), uri);
@@ -736,138 +749,27 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
                     Toast.makeText(getActivity(),"Not Found",Toast.LENGTH_LONG).show();
                 }
 
-
                 if(realPath != null) {
                     File file = new File(realPath);
-
                     stgetImage = file.getName();
-                    attachment_ImageList.add(stgetImage);
-
-                    attachmentDatas.add(new AttachmentData(stgetImage, realPath));
+                  //  attachment_ImageList.add(stgetImage);
+                  //  attachmentDatas.add(new AttachmentData(stgetImage, realPath));
 
                  /*
                  adapter_attachment = new AttachmentAdapter(getActivity(), R.layout.add_attachment_feedbackfrag_adapter, attachment_ImageList);
                     lst_attachment.setAdapter(adapter_attachment);
                     ListviewHelper.getListViewSize(lst_attachment);
                  */
-
                     if (stgetImage != null) {
                         //  linearLayout_add_attachment.addView(tableLayout(stgetImage), linearLayout_add_attachment.getChildCount());
                     }
 
-          /*      try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                    String endkmImageEncodeString = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100);
-
-                    // Log.d(TAG, String.valueOf(bitmap));
-
-                    // ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                    // imageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
                 }
             }
             if (requestCode == ADD_CAPTURE_IMAGE) {
-                String capturepath = "";
 
-                //   String[] all_path = data.getStringArrayExtra("all_path");
-                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+                onCaptureImageResult(data);
 
-                SimpleDateFormat time_formatter = new SimpleDateFormat("HH:mm:ss");
-                String current_time_str = time_formatter.format(System.currentTimeMillis());
-
-                String destinationpath = Environment.getExternalStorageDirectory().toString();
-                File destination = new File(destinationpath + "/ESP/");
-                if (!destination.exists()) {
-                    destination.mkdirs();
-                }
-
-                File file = null;
-                FileOutputStream fo;
-                try {
-                    // destination.createNewFile();
-
-                    file = new File(destination,  current_date + "_" + current_time_str + ".jpg");
-                    fo = new FileOutputStream(file);
-                    fo.write(bytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-                    System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
-                    String path = (file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
-
-                    String startkmImageEncodeString = encodeToBase64(thumbnail, Bitmap.CompressFormat.JPEG, 100);
-                    String totalcapturepath = destinationpath + "/ESP/FeedBack/" + capturepath;
-
-                    capture_ImageList.add(path);
-                    arrayList.add(path);
-                String datastring =path;
-
-             /*   adapter_attachment = new AttachmentAdapter(getActivity(), R.layout.add_attachment_feedbackfrag_adapter, capture_ImageList);
-                lst_attachment.setAdapter(adapter_attachment);
-                ListviewHelper.getListViewSize(lst_attachment);*/
-
-              if(arrayList.size() > 0){
-                   // for(int a= 0; a<arrayList.size();a++){
-                        TextView label_photo2add = new TextView(getActivity());
-                        LinearLayout.LayoutParams param_photos2_add = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                        label_photo2add.setLayoutParams(param_photos2_add);
-                        label_photo2add.setGravity(Gravity.CENTER);
-                        label_photo2add.setBackgroundResource(R.drawable.edit_text_design);
-                        label_photo2add.setPadding(0, 5, 0, 5);
-                        label_photo2add.setText(datastring);
-                        label_photo2add.setTextColor(Color.BLACK);
-
-                        linearLayoutphotos.addView(label_photo2add);
-
-                   // }
-                }
-
-
-
-
-
-
-             /*
-                if(count_capture_Image == 0){
-                    ivPhotos1.setVisibility(View.VISIBLE);
-                    ivPhotos1.setText(path);
-                }
-                if(count_capture_Image == 1){
-                    ivPhotos2.setVisibility(View.VISIBLE);
-                    ivPhotos2.setText(path);
-                }
-                if(count_capture_Image == 2){
-                    ivPhotos3.setVisibility(View.VISIBLE);
-                    ivPhotos3.setText(path);
-                }
-                if(count_capture_Image == 3){
-                    ivPhotos4.setVisibility(View.VISIBLE);
-                    ivPhotos4.setText(path);
-                }
-                if(count_capture_Image == 4){
-                    ivPhotos5.setVisibility(View.VISIBLE);
-                    ivPhotos5.setText(path);
-                }*/
-
-
-
-
-                if(capture_ImageList.size()>0){
-
-                    for(String datas : capture_ImageList){
-                        Toast.makeText(getActivity(), datas, Toast.LENGTH_LONG).show();
-                    }
-                }
 
             }
         }
@@ -880,6 +782,11 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
         image.compress(compressFormat, quality, byteArrayOS);
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
     }
+
+
+
+
+/*
 
     private class AttachmentAdapter extends ArrayAdapter {
 
@@ -936,7 +843,16 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
         }
+
+        public void setImageInItem(int position, String imagePath) {
+            String name= arrayList.get(position);
+             arrayList.add(imagePath);
+            notifyDataSetChanged();
+        }
+
+
     }
+*/
 
 
 
@@ -950,16 +866,16 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
         }
 
-
-
         @NonNull
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.final_checklist_data_adapter, parent, false);
+            if (convertView == null){
+                convertView = layoutInflater.inflate(R.layout.final_checklist_data_adapter, parent, false);
+        }
 
-            lst_attachment =(ListView)convertView.findViewById(R.id.lstcapture_adapter);
+          //  lst_attachment =(ListView)convertView.findViewById(R.id.lstcapture_adapter);
             TextView tvSno=(TextView)convertView.findViewById(R.id.tv_sno);
             TextView tvDesc=(TextView)convertView.findViewById(R.id.tv_description);
             TextView tvSts=(TextView)convertView.findViewById(R.id.tv_status);
@@ -967,47 +883,89 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
             TextView ivPhotos=(TextView) convertView.findViewById(R.id.tv_photos);
 
              ivPhotos1=(TextView) convertView.findViewById(R.id.tv_photos_1);
-             ivPhotos2=(TextView) convertView.findViewById(R.id.tv_photos_2);
+            /* ivPhotos2=(TextView) convertView.findViewById(R.id.tv_photos_2);
              ivPhotos3=(TextView) convertView.findViewById(R.id.tv_photos_3);
              ivPhotos4=(TextView) convertView.findViewById(R.id.tv_photos_4);
-             ivPhotos5=(TextView) convertView.findViewById(R.id.tv_photos_5);
+             ivPhotos5=(TextView) convertView.findViewById(R.id.tv_photos_5);*/
 
           //  lst_attachment =(ListView)convertView.findViewById(R.id.lst_final_checklist_data_adapter);
 
+
+
             FinalCheckListData data =getListArray.get(position);
+                 data.setRemark(tvRemark.getText().toString());
+                 data.setSts(tvSts.getText().toString());
+
             tvSno.setText(data.getsNo()+"");
             tvDesc.setText(data.getDesc());
             tvSts.setText(data.getSts());
             tvRemark.setText(data.getRemark());
             //ivPhotos.setText(data.getPhotos());
-            if(data.getPhotos().equals("yes"))
+            if(data.getPhotos().equals("yes")) {
                 ivPhotos.setBackgroundResource(android.R.drawable.ic_input_add);
+            }
 
-          ivPhotos.setOnClickListener(new View.OnClickListener() {
+
+            if(data.getCount()!= 0){
+                ivPhotos1.setVisibility(View.VISIBLE);
+                ivPhotos1.setText(data.getCount()+"");
+
+               Log.v("AllImage", data.getPath());
+                String[] words=data.getPath().split(":::");//splits the string based on whitespace
+
+                data.setMultiphotos( Arrays.asList(words));
+
+                for(String w:data.getMultiphotos()){
+                    Log.v("someImage", w);
+                }
+            }
+
+
+
+            ivPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                        captureImage(position);
 
-
-
-
+/*
                             if (count_capture_Image < 5) {
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                               Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 startActivityForResult(intent, ADD_CAPTURE_IMAGE);
                                 count_capture_Image++;
 
+                                if(count_capture_Image == 0){
+                                    ivPhotos1.setVisibility(View.VISIBLE);
+                                    ivPhotos1.setText(path);
+                                }
+                                if(count_capture_Image == 1){
+                                    ivPhotos2.setVisibility(View.VISIBLE);
+                                    ivPhotos2.setText(path);
+                                }
+                                if(count_capture_Image == 2){
+                                    ivPhotos3.setVisibility(View.VISIBLE);
+                                    ivPhotos3.setText(path);
+                                }
+                                if(count_capture_Image == 3){
+                                    ivPhotos4.setVisibility(View.VISIBLE);
+                                    ivPhotos4.setText(path);
+                                }
+                                if(count_capture_Image == 4){
+                                    ivPhotos5.setVisibility(View.VISIBLE);
+                                    ivPhotos5.setText(path);
+                                }
                             }
 
-                      /*      adapter_attachment = new AttachmentAdapter(getActivity(), R.layout.add_attachment_feedbackfrag_adapter, attachment_ImageList);
+                      *//*      adapter_attachment = new AttachmentAdapter(getActivity(), R.layout.add_attachment_feedbackfrag_adapter, attachment_ImageList);
                             lst_attachment.setAdapter(adapter_attachment);
                             ListviewHelper.getListViewSize(lst_attachment);
-                            adapter_attachment.notifyDataSetChanged();*/
+                            adapter_attachment.notifyDataSetChanged();*//*
 
                   else {
 
                         Toast.makeText(getActivity(), "Maximum 5 Attachment at a time", Toast.LENGTH_LONG).show();
 
-                    }
+                    }*/
 
 
                 }
@@ -1020,6 +978,268 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
     }
+
+
+    public void captureImage(int pos )
+    {
+        positions = pos;
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, ADD_CAPTURE_IMAGE);
+    }
+    /**
+     * Set capture image to database and set to image preview
+     *
+     * @param data
+     */
+    private void onCaptureImageResult(Intent data) {
+        String capturepath = "";
+        Bundle extras = data.getExtras();
+        Bitmap thumbnail = (Bitmap) extras.get("data");
+
+        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+
+        SimpleDateFormat time_formatter = new SimpleDateFormat("HH:mm:ss");
+        String current_time_str = time_formatter.format(System.currentTimeMillis());
+
+        String destinationpath = Environment.getExternalStorageDirectory().toString();
+        File destination = new File(destinationpath + "/ESP/");
+        if (!destination.exists()) {
+            destination.mkdirs();
+        }
+
+        File file = null;
+        FileOutputStream fo;
+        try {
+            // destination.createNewFile();
+
+            capturepath = current_date + "_" + current_time_str + ".jpg";
+
+            file = new File(destination, capturepath);
+            fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
+        String path = (file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
+
+        String startkmImageEncodeString = encodeToBase64(thumbnail, Bitmap.CompressFormat.JPEG, 100);
+
+
+        //count1++;
+
+        FinalCheckListData chk = fvalue.get(positions);
+       String photoss = chk.getPath() + path + ":::";
+       // chk.setPath(path);
+        chk.setPath(photoss);
+        int counter= chk.getCount() +1;
+        chk.setCount(counter);
+     //  setPhotosData(positions,path,fvalue);
+        finalCheckListAdapterListview_save.notifyDataSetChanged();
+
+    }
+
+
+
+    public void setPhotosData(int pos ,String path, List<FinalCheckListData> fValue)
+    {
+        if(pos ==0) {
+            count1++;
+            photos1 = photos1 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count1 );
+            chk.setPath(photos1);
+        }
+        if(pos ==1) {
+            count2++;
+            photos2 = photos2 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count2 );
+            chk.setPath(photos2);
+        }
+
+        if(pos ==2) {
+            count3++;
+            photos3 = photos3 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count3 );
+            chk.setPath(photos3);
+        }
+        if(pos ==3) {
+            count4++;
+            photos4 = photos4 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count4 );
+            chk.setPath(photos4);
+        }
+        if(pos ==4) {
+            count5++;
+            photos5 = photos5 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count5 );
+            chk.setPath(photos5);
+        }
+        if(pos ==5) {
+            count6++;
+            photos6 = photos6 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count6 );
+            chk.setPath(photos6);
+        }
+        if(pos ==6) {
+            count7++;
+            photos7 = photos7 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count7 );
+            chk.setPath(photos7);
+        }
+        if(pos ==7) {
+            count8++;
+            photos8 = photos8 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count8 );
+            chk.setPath(photos8);
+        }
+        if(pos ==8) {
+            count9++;
+            photos9 = photos9 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count9 );
+            chk.setPath(photos9);
+        }
+        if(pos ==9) {
+            count10++;
+            photos10 = photos10 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count10 );
+            chk.setPath(photos10);
+        }
+        if(pos ==10) {
+            count11++;
+            photos11 = photos11 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count11 );
+            chk.setPath(photos11);
+        }
+        if(pos ==11) {
+            count12++;
+            photos12 = photos12 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count12 );
+            chk.setPath(photos12);
+        }
+        if(pos ==12) {
+            count13++;
+            photos13 = photos13 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count13 );
+            chk.setPath(photos13);
+        }
+        if(pos ==13) {
+            count14++;
+            photos14 = photos14 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count14 );
+            chk.setPath(photos14);
+        }
+        if(pos ==14) {
+            count15++;
+            photos15 = photos15 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count15 );
+            chk.setPath(photos15);
+        }
+        if(pos ==15) {
+            count16++;
+            photos16 = photos16 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count16 );
+            chk.setPath(photos16);
+        }
+        if(pos ==16) {
+            count17++;
+            photos17 = photos17 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count17 );
+            chk.setPath(photos17);
+        }
+        if(pos ==17) {
+            count18++;
+            photos18 = photos18 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count18 );
+            chk.setPath(photos18);
+        }
+        if(pos ==18) {
+            count19++;
+            photos19 = photos19 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count19 );
+            chk.setPath(photos19);
+        }
+        if(pos ==19) {
+            count20++;
+            photos20 = photos20 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count20 );
+            chk.setPath(photos20);
+        }
+        if(pos ==20) {
+            count21++;
+            photos21 = photos21 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count21);
+            chk.setPath(photos21);
+        }
+        if(pos ==21) {
+            count22++;
+            photos22 = photos22 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count22 );
+            chk.setPath(photos22);;
+        }
+        if(pos ==22) {
+            count23++;
+            photos23 = photos23 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count23 );
+            chk.setPath(photos23);
+        }
+        if(pos ==23) {
+            count24++;
+            photos24 = photos24 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count24 );
+            chk.setPath(photos24);
+        }
+        if(pos ==24) {
+            count25++;
+            photos25 = photos25 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count25 );
+            chk.setPath(photos25);;
+        }
+        if(pos ==25) {
+            count26++;
+            photos26 = photos26 + path + ":::";
+            FinalCheckListData chk = fValue.get(pos);
+            chk.setCount(count26 );
+            chk.setPath(photos26);
+        }
+
+
+
+
+
+    }
+
 
 
 

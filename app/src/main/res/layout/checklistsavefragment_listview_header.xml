@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:background="@color/gray"
+        android:paddingLeft="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/white"
+            android:text="SNo"
+            android:layout_weight=".4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+        </View>
+        <TextView
+            android:textColor="@color/white"
+            android:paddingLeft="3dp"
+            android:text="Description"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+        </View>
+        <TextView
+            android:textColor="@color/white"
+            android:paddingLeft="3dp"
+            android:textSize="14dp"
+            android:id="@+id/tv_status"
+            android:text="Status"
+            android:layout_weight=".5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+        </View>
+        <TextView
+            android:textColor="@color/white"
+            android:paddingLeft="3dp"
+            android:textSize="14dp"
+            android:id="@+id/tv_remark"
+            android:text="Remark"
+            android:layout_weight=".6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/white"
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+        </View>
+
+
+
+            <TextView
+                android:textColor="@color/white"
+                android:layout_weight=".6"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:text="Photos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

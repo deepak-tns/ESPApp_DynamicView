@@ -48,23 +48,33 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:visibility="gone"
+                android:layout_marginTop="30dp"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/lay_header"
+                    layout="@layout/checklistsavefragment_listview_header"/>
+
             <ListView
+                android:layout_below="@+id/lay_header"
+                android:dividerHeight="1dp"
+                 android:divider="@color/gray"
                 android:id="@+id/final_listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
             </ListView>
 
             <Button
-                android:layout_below="@+id/final_listview"
-                android:id="@+id/btn_send2"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/btn_send"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/button_bg"
                 android:text="Save"
                 android:textAllCaps="false"
@@ -106,7 +116,7 @@
                 android:id="@+id/scrollView1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +133,6 @@
                     </TableLayout>
                     <Button
                         android:layout_below="@+id/final_listview"
-                        android:id="@+id/btn_send"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="22dp"

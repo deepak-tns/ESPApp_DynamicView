@@ -1,6 +1,7 @@
 package com.tns.espapp.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TNS on 09-Aug-17.
@@ -13,15 +14,23 @@ public class FinalCheckListData {
     private String sts;
     private String remark;
     private String photos;
-    private ArrayList<String> multiphotos;
 
-    public FinalCheckListData(int sNo, String desc, String sts, String remark,String photos) {
+    private String path;
+
+
+    private  int count;
+    private List<String> multiphotos = new ArrayList<>();
+
+    public FinalCheckListData(int sNo, String desc, String sts, String remark,String photos)
+    {
         this.sNo = sNo;
         this.desc = desc;
         this.sts = sts;
         this.remark = remark;
         this.photos = photos;
     }
+
+
 
     public FinalCheckListData(ArrayList<String> multiphotos) {
         this.multiphotos = multiphotos;
@@ -68,13 +77,28 @@ public class FinalCheckListData {
         this.photos = photos;
     }
 
-    public ArrayList<String> getMultiphotos() {
+    public List<String> getMultiphotos() {
         return multiphotos;
     }
 
-    public void setMultiphotos(ArrayList<String> multiphotos) {
+    public void setMultiphotos(List<String> multiphotos) {
         this.multiphotos = multiphotos;
     }
 
+    public String getPath() {
+        return path;
+    }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

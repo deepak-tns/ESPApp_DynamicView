@@ -137,8 +137,6 @@ public class GetCheckListSavedFragment extends Fragment {
 
                 }
 
-
-
                 Set<String> primesWithoutDuplicates = new LinkedHashSet<String>(keyFormlist); // now let's clear the ArrayList so that we can copy all elements from LinkedHashSet primes.clear(); // copying elements but without any duplicates primes.addAll(primesWithoutDuplicates);
 
                 keyFormlist.clear(); // copying elements but without any duplicates primes.addAll(primesWithoutDuplicates);

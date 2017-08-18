@@ -214,6 +214,7 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
         fab_close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_backward);
+
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
@@ -401,8 +402,7 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
 
     private void setFontFamily() {
 
-        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
-                "arial.ttf");
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "arial.ttf");
 
         fullScreenContentTextView.setTypeface(face);
         fromNumberTextView.setTypeface(face);
