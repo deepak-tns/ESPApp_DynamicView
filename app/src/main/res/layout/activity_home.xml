@@ -291,8 +291,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:clickable="true"
-                        android:padding="10dp"                    android:textColor="@color/black"
-
+                        android:padding="10dp"
+                        android:textColor="@color/black"
                         android:text="@string/leave_apply"
                          />
 
@@ -786,7 +786,7 @@
                     android:background="@drawable/clickpress"
                     android:padding="10dp"
                     android:text="Setting"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/linear_checklist_header"

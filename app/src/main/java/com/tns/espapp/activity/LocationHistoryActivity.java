@@ -245,7 +245,9 @@ public class LocationHistoryActivity extends AppCompatActivity implements SwipeR
             formno.setText(latLongData.getFormno().substring(13));
             date.setText(latLongData.getDate());
 
-            tv_distence.setText(String.format("%.2f", Double.parseDouble(latLongData.getTotaldis())));
+            tv_distence.setText(String.format("%.2f", Double.parseDouble(latLongData.getSpeed())));
+          //  tv_distence.setText(String.format("%.2f", Double.parseDouble(latLongData.getTotaldis())));
+
             String ss = "";
             String s = latLongData.getLat();
             if (s.length() > 4) {

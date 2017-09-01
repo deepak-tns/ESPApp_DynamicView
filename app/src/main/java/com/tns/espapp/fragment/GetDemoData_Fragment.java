@@ -215,9 +215,6 @@ public class GetDemoData_Fragment extends Fragment {
                                     if (view instanceof CheckBox) {
 
                                     }
-
-
-
                                 }
 
 //do something

@@ -44,7 +44,7 @@ public class ReadNotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_notification);
         db = new DatabaseHandler(this);
-        tv_set_notifu =(TextView)findViewById(R.id.tv_set_notifu) ;
+
 
 
 
@@ -65,8 +65,8 @@ public class ReadNotificationActivity extends AppCompatActivity {
        */
 
 
-        notificationTextView = (TextView) findViewById(R.id.tv_set_notifu);
-        setFontFamily(notificationTextView);
+
+
         ListView listView = (ListView) findViewById(R.id.lst_notification);
 
         List<NotificationData> getdata = db.getAllNotification();

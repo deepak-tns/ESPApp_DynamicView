@@ -27,7 +27,9 @@
           android:windowSoftInputMode="adjustNothing"
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/DrawerTheme" />
+            android:theme="@style/DrawerTheme" >
+
+        </activity>
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -38,6 +40,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -171,7 +174,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.DynamicFromActivity" />
         <activity android:name=".activity.CreateTemplateActivity" />
-        <activity android:name=".activity.RouteMapActivity"></activity>
+        <activity android:name=".activity.RouteMapActivity" />
+        <activity android:name=".fragment.ShowDataActivity"></activity>
     </application>
 
 </manifest>

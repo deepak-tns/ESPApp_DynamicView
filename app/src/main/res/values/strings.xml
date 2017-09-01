@@ -72,6 +72,9 @@
     <string name="salary">Salary</string>
     <string name="feedback">FeedBack</string>
     <string name="location">Location</string>
+    <string name="locationHistory">Location History</string>
+    <string name="taxiHistory">Taxi History</string>
+    <string name="currentlocation">Current Location</string>
     <string name="tds_declaration">TDS Declaration</string>
     <string name="wait_for_approval">You are Registered Successfully Please Wait for Approval</string>
     <string name="esp">ESP</string>

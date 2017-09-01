@@ -33,6 +33,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -94,7 +95,7 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
 
     private EditText edt_settaxiform_date, edt_startkmImage, edt_endkm_Image, edtstartkmtext, edtendkmtext, edtproject_type, edt_vehicle_no, edt_siteno, edt_remark;
     private int flag = 0;
-    private int latlongtableflag;
+    private boolean save_state = true;
     private Button btn_close;
     int REQUEST_CAMERA = 0;
     private static final int SELECT_PICTURE = 1;
@@ -276,11 +277,6 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
         int a = data.size();
 
 
-        if (a > 200) {
-            db.deleteSomeRow_Taxiform();
-        }
-
-
         if (a > 0) {
             for (TaxiFormData datas : data) {
                 flag = datas.getFlag();
@@ -330,13 +326,12 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
 
                 } else {
 
-                 /*   formated_Date = new String(getDate2);
+                /*    formated_Date = new String(getDate2);
                     formated_Date = formated_Date.replaceAll("-", "");
                     paddedkeyid = String.format("%3s", keyid).replace(' ', '0');
 
                     form_no =empid + "/" + formated_Date + "/" + paddedkeyid;*/
 
-                    current_date = getDate2;
                     tv_form_no.setText(form_no);
                     edt_settaxiform_date.setText(getDate2);
                     edtproject_type.setText(ptype);
@@ -1050,7 +1045,11 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
 
                     if (s.length() == 0) {
 
+
                         db.deleteSingleRowTaxiformData(form_no);
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();
+
                     }
 
                     if (s.length() == 1) {
@@ -1076,8 +1075,9 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
                         }
 
 
-                        db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
-                        incri_id = incri_id + 1;
+                            db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
+                            incri_id = db.getLastInsertId();
+
 
            /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
                   ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/

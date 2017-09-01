@@ -46,7 +46,7 @@ public class ReadNotificationFragment extends Fragment {
         db = new DatabaseHandler(getActivity());
 
 
-        TextView tv_set_notifu =(TextView)v.findViewById(R.id.tv_set_notifu);
+
         ListView listView =(ListView)v.findViewById(R.id.lst_notification) ;
 
         List<NotificationData> getdata = db.getAllNotification();

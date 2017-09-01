@@ -35,7 +35,7 @@ public class NewHomeActivity extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new ReadNotificationFragment(), "Notification");
+
         adapter.addFrag(new BlankFragment(), "Esp");
         adapter.addFrag(new TaxiFormFragment(), "Taxi");
         adapter.addFrag(new FeedBackFragment(), "OP");

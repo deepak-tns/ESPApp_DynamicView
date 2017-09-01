@@ -25,6 +25,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.CellLocation;
+import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -61,7 +65,6 @@ import com.tns.espapp.fragment.EntitlementFragment;
 import com.tns.espapp.fragment.FeedBackFragment;
 import com.tns.espapp.fragment.FeedbackFragmentHistory;
 import com.tns.espapp.fragment.GetCheckListSavedFragment;
-import com.tns.espapp.fragment.GetDemoData_Fragment;
 import com.tns.espapp.fragment.HomeFragment;
 import com.tns.espapp.fragment.InfoBullteinFragment;
 import com.tns.espapp.fragment.LeaveApplyFragment;
@@ -971,7 +974,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             bundle.putString("PARAM1", frgname );
             CheckListSavedFragment fragInfo = new CheckListSavedFragment();
             fragInfo.setArguments(bundle);
-
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, fragInfo).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
         }
@@ -1245,17 +1247,156 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
 
 
-
-
             return convertView;
         }
 
-
-
-
-
-
     }
+ /*   private final PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onCallForwardingIndicatorChanged(boolean cfi) {
+
+            super.onCallForwardingIndicatorChanged(cfi);
+        }
+
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            //checkInternetConnection();
+            String callState = "UNKNOWN";
+            switch (state) {
+                case TelephonyManager.CALL_STATE_IDLE:
+                    callState = "IDLE";
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING:
+                    callState = "Ringing (" + incomingNumber + ")";
+                    break;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    callState = "Offhook";
+                    break;
+            }
+
+            Log.i("Phone Stats", "onCallStateChanged " + callState);
+
+            super.onCallStateChanged(state, incomingNumber);
+        }
+
+        @Override
+        public void onCellLocationChanged(CellLocation location) {
+            String cellLocationString = location.toString();
+
+            super.onCellLocationChanged(location);
+
+
+
+        }
+
+        @Override
+        public void onDataActivity(int direction) {
+            String directionString = "none";
+            switch (direction) {
+                case TelephonyManager.DATA_ACTIVITY_IN:
+                    directionString = "IN";
+                    break;
+                case TelephonyManager.DATA_ACTIVITY_OUT:
+                    directionString = "OUT";
+                    break;
+                case TelephonyManager.DATA_ACTIVITY_INOUT:
+                    directionString = "INOUT";
+                    break;
+                case TelephonyManager.DATA_ACTIVITY_NONE:
+                    directionString = "NONE";
+                    break;
+                default:
+                    directionString = "UNKNOWN: " + direction;
+                    break;
+            }
+
+            Log.i("Phone Stats", "onDataActivity " + directionString);
+
+            super.onDataActivity(direction);
+        }
+
+        @Override
+        public void onDataConnectionStateChanged(int state,int networktype) {
+            String connectionState = "Unknown";
+
+            switch (state ) {
+
+                case TelephonyManager.DATA_CONNECTED :
+                    connectionState = "Connected";
+                    break;
+                case TelephonyManager.DATA_CONNECTING:
+                    connectionState = "Connecting";
+                    break;
+                case TelephonyManager.DATA_DISCONNECTED:
+                    connectionState = "Disconnected";
+                    break;
+                case TelephonyManager.DATA_SUSPENDED:
+                    connectionState = "Suspended";
+                    break;
+                default:
+                    connectionState = "Unknown: " + state;
+                    break;
+            }
+
+            super.onDataConnectionStateChanged(state);
+
+
+            Log.i("Phone Stats", "onDataConnectionStateChanged "
+                    + connectionState);
+
+
+        }
+
+        @Override
+        public void onMessageWaitingIndicatorChanged(boolean mwi) {
+
+            super.onMessageWaitingIndicatorChanged(mwi);
+        }
+
+        @Override
+        public void onServiceStateChanged(ServiceState serviceState) {
+            String serviceStateString = "UNKNOWN";
+            switch (serviceState.getState()) {
+                case ServiceState.STATE_IN_SERVICE:
+                    serviceStateString = "IN SERVICE";
+                    break;
+                case ServiceState.STATE_EMERGENCY_ONLY:
+                    serviceStateString = "EMERGENCY ONLY";
+                    break;
+                case ServiceState.STATE_OUT_OF_SERVICE:
+                    serviceStateString = "OUT OF SERVICE";
+                    break;
+                case ServiceState.STATE_POWER_OFF:
+                    serviceStateString = "POWER OFF";
+                    break;
+
+                default:
+                    serviceStateString = "UNKNOWN";
+                    break;
+            }
+
+            Log.i("Phone Stats", "onServiceStateChanged " + serviceStateString);
+
+            super.onServiceStateChanged(serviceState);
+        }
+
+        @Override
+        public void onSignalStrengthChanged(int asu) {
+
+            Log.i("Phone Stats", "onSignalStrengthChanged " + asu);
+            setSignalLevel( asu);
+            super.onSignalStrengthChanged(asu);
+        }
+        private void setSignalLevel(int level) {
+            int sLevel = (int) ((level / 31.0) * 100);
+
+
+            Log.i("signalLevel ", "" + sLevel);
+        }
+
+    };*/
+
+
 
 
 }

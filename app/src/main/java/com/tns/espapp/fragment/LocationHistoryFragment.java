@@ -118,9 +118,9 @@ public class LocationHistoryFragment extends Fragment implements SwipeRefreshLay
 
         List<LatLongData> latLongDataList = db.getAllLatLongORDerBy();
         int size = latLongDataList.size();
-            if(size > 10000) {
+      /*      if(size > 10000) {
                db.deleteSomeRow_LatLong();
-            }
+            }*/
         if(size >0){
             for(LatLongData latLongData : latLongDataList){
                 latLongDataArrayList.add(latLongData);
@@ -255,7 +255,8 @@ private double distenc2(double a, double b, double c, double d){
           formno.setText(latLongData.getFormno().substring(13));
           date.setText(latLongData.getDate());
 
-          tv_distence.setText(String.format("%.2f",Double.parseDouble(latLongData.getTotaldis())));
+          tv_distence.setText(String.format("%.2f",Double.parseDouble(latLongData.getSpeed())));
+        //  tv_distence.setText(String.format("%.2f",Double.parseDouble(latLongData.getTotaldis())));
           String ss = "";
           String s = latLongData.getLat();
           if (s.length()> 4) {

@@ -151,6 +151,7 @@ public class SendLatiLongiServerIntentService extends IntentService {
             jsonArrayParameter.put(latLongData.getId());
             jsonArrayParameter.put(latLongData.getTotaldis());
             jsonArrayParameter.put(latLongData.getSpeed());
+
             jsonObject.put("DatabaseName", "TNS_HR");
             jsonObject.put("ServerName", "bkp-server");
             jsonObject.put("UserId", "sanjay");

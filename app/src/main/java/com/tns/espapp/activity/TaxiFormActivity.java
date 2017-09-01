@@ -64,9 +64,9 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class TaxiFormActivity extends AppCompatActivity implements View.OnClickListener,
-        com.google.android.gms.location.LocationListener,  GoogleApiClient.ConnectionCallbacks,
+        com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    private EditText edt_settaxiform_date, edt_startkmImage, edt_endkm_Image, edtstartkmtext, edtendkmtext, edtproject_type, edt_vehicle_no,edt_siteno,edt_remark;
+    private EditText edt_settaxiform_date, edt_startkmImage, edt_endkm_Image, edtstartkmtext, edtendkmtext, edtproject_type, edt_vehicle_no, edt_siteno, edt_remark;
     private int flag = 0;
     private int latlongtableflag;
     private Button btn_close;
@@ -80,7 +80,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
     int keyid = 1;
 
-    int incri_id =0 ;
+    int incri_id = 0;
     DatabaseHandler db;
     List<TaxiFormData> data;
     double latitude;
@@ -127,6 +127,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
     private TextView endKmTextView;
     private TextView numberOfSitesTextView;
     private TextView remarksTextView;
+
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
@@ -139,7 +140,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taxi_form);
-      //  Toolbar toolbar =(Toolbar)getActivity().findViewById(R.id.toolbar);
+        //  Toolbar toolbar =(Toolbar)getActivity().findViewById(R.id.toolbar);
         // iv_status =(ImageView) toolbar. findViewById(R.id.status_taxiform);
 
         findIDS();
@@ -148,7 +149,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         }*/
 
         // boolean b = GPSTracker.isRunning;
-        sharedPreferences     = getSharedPreferences("SERVICE", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("SERVICE", Context.MODE_PRIVATE);
         intent = new Intent(TaxiFormActivity.this, GPSTracker.class);
         /*if(!b){
             getActivity().startService(intent);
@@ -164,7 +165,6 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 .build();
 
 
-
         db = new DatabaseHandler(TaxiFormActivity.this);
 
         SharedPreferenceUtils sharedPreferenceUtils = SharedPreferenceUtils.getInstance();
@@ -172,13 +172,12 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         empid = sharedPreferenceUtils.getString(AppConstraint.EMPID);
 
         List<SettingData> settingDatas = db.getGPS_settingData();
-        if(settingDatas.size() >0){
+        if (settingDatas.size() > 0) {
 
 
-            getGPSAllowed =settingDatas.get(0).getSett_Gpsenabled();
+            getGPSAllowed = settingDatas.get(0).getSett_Gpsenabled();
 
         }
-
 
 
         //SharedPreferences sharedPreferences_setid = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
@@ -205,37 +204,30 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         int a = data.size();
 
 
-        if(a >200){
-            db.deleteSomeRow_Taxiform();
-        }
-
-
         if (a > 0) {
             for (TaxiFormData datas : data) {
                 flag = datas.getFlag();
                 incri_id = datas.getId();
                 keyid = datas.getKeyid();
                 String getDate2 = datas.getSelectdate();
-                form_no = datas.getFormno();
+                 form_no = datas.getFormno();
                 String ptype = datas.getProjecttype();
                 String vehi_no = datas.getVechicleno();
                 String stkm = datas.getStartkm();
                 startkmImageEncodeString = datas.getStartkm_image();
                 String endkm = datas.getEndkm();
                 endkmImageEncodeString = datas.getEndkmimage();
-                String stsiteno =datas.getSiteno();
+                String stsiteno = datas.getSiteno();
                 String stremark = datas.getRemark();
 
 
                 if (flag == 1 || flag == 2) {
 
-                    if(!current_date.equals(getDate2)){
-                        keyid=1;
-                    }
-                    else{
+                    if (!current_date.equals(getDate2)) {
+                        keyid = 1;
+                    } else {
                         keyid++;
                     }
-
 
                     paddedkeyid = String.format("%3s", keyid).replace(' ', '0');
                     // int id = Integer.parseInt(paddedkeyid);
@@ -260,13 +252,12 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
                 } else {
 
-                 /*   formated_Date = new String(getDate2);
+                    formated_Date = new String(getDate2);
                     formated_Date = formated_Date.replaceAll("-", "");
                     paddedkeyid = String.format("%3s", keyid).replace(' ', '0');
 
-                    form_no =empid + "/" + formated_Date + "/" + paddedkeyid;*/
+                    form_no =empid + "/" + formated_Date + "/" + paddedkeyid;
 
-                    current_date = getDate2;
                     tv_form_no.setText(form_no);
                     edt_settaxiform_date.setText(getDate2);
                     edtproject_type.setText(ptype);
@@ -291,7 +282,6 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         allEdittexform();
 
 
-
     }
 
     private void findIDS() {
@@ -305,21 +295,18 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         edtproject_type = (EditText) findViewById(R.id.edt_project_type);
         edt_vehicle_no = (EditText) findViewById(R.id.edt_vehicle_no);
         btn_close = (Button) findViewById(R.id.btn_close_taxiform);
-        edt_siteno  = (EditText) findViewById(R.id.edt_siteno);
+        edt_siteno = (EditText) findViewById(R.id.edt_siteno);
         edt_remark = (EditText) findViewById(R.id.edt_remark);
-        fullScreenContentTextView = (TextView)findViewById(R.id.fullscreen_content);
-        fromNumberTextView = (TextView)findViewById(R.id.fromNumberTextView);
-        fromNumberDataTextView = (TextView)findViewById(R.id.tv_form_no);
-        dateTextView = (TextView)findViewById(R.id.dateTextView);
-        projectTypeTextView = (TextView)findViewById(R.id.projectTypeTextView);
-        vehicleNumberTextView = (TextView)findViewById(R.id.vehicleNumberTextView);
-        startKmTextView = (TextView)findViewById(R.id.startKmTextView);
-        endKmTextView = (TextView)findViewById(R.id.endKmTextView);
-        numberOfSitesTextView = (TextView)findViewById(R.id.numberOfSitesTextView);
-        remarksTextView = (TextView)findViewById(R.id.remarksTextView);
-
-
-
+        fullScreenContentTextView = (TextView) findViewById(R.id.fullscreen_content);
+        fromNumberTextView = (TextView) findViewById(R.id.fromNumberTextView);
+        fromNumberDataTextView = (TextView) findViewById(R.id.tv_form_no);
+        dateTextView = (TextView) findViewById(R.id.dateTextView);
+        projectTypeTextView = (TextView) findViewById(R.id.projectTypeTextView);
+        vehicleNumberTextView = (TextView) findViewById(R.id.vehicleNumberTextView);
+        startKmTextView = (TextView) findViewById(R.id.startKmTextView);
+        endKmTextView = (TextView) findViewById(R.id.endKmTextView);
+        numberOfSitesTextView = (TextView) findViewById(R.id.numberOfSitesTextView);
+        remarksTextView = (TextView) findViewById(R.id.remarksTextView);
 
 
         edt_startkmImage.setOnClickListener(this);
@@ -332,8 +319,8 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
-    private void setFontFamily()
-    {
+
+    private void setFontFamily() {
 
         Typeface face = Typeface.createFromAsset(TaxiFormActivity.this.getAssets(),
                 "arial.ttf");
@@ -520,7 +507,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     // destination.createNewFile();
 
-                    file = new File(destination, paddedkeyid + "::" + current_date +"_"+ current_time_str + ".jpg");
+                    file = new File(destination, paddedkeyid + "::" + current_date + "_" + current_time_str + ".jpg");
 
                     fo = new FileOutputStream(file);
                     fo.write(bytes.toByteArray());
@@ -541,7 +528,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 startkmImageEncodeString = encodeToBase64(setTextwithImage, Bitmap.CompressFormat.JPEG, 80);
                 edt_startkmImage.setText(startkmImageEncodeString);
 
-                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
 
             }
         }
@@ -591,7 +578,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     //  file.createNewFile();
 
-                    File file = new File(destination, paddedkeyid + "::" + current_date +"_"+ current_time_str + ".jpg");
+                    File file = new File(destination, paddedkeyid + "::" + current_date + "_" + current_time_str + ".jpg");
                     fo = new FileOutputStream(file);
                     fo.write(bytes.toByteArray());
                     fo.close();
@@ -617,7 +604,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
                 edt_endkm_Image.setText(endkmImageEncodeString);
 
-                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
 
             }
             // setImg.setImageBitmap(thumbnail);
@@ -640,7 +627,6 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
 
 
-
         if (v == edt_startkmImage) {
 
             selectImage("start");
@@ -654,12 +640,12 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
         if (v == btn_close) {
             int stkm = 0;
-            int endkm =0;
-            if(!edtstartkmtext.getText().toString().equals("")) {
+            int endkm = 0;
+            if (!edtstartkmtext.getText().toString().equals("")) {
                 stkm = Integer.parseInt(edtstartkmtext.getText().toString());
 
             }
-            if(!edtendkmtext.getText().toString().equals("")) {
+            if (!edtendkmtext.getText().toString().equals("")) {
                 endkm = Integer.parseInt(edtendkmtext.getText().toString());
 
             }
@@ -688,29 +674,23 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(TaxiFormActivity.this, "Capture Image for Start KM", Toast.LENGTH_LONG).show();
                 return;
 
-            }  else if (TextUtils.isEmpty(edtendkmtext.getText())) {
+            } else if (TextUtils.isEmpty(edtendkmtext.getText())) {
                 edtendkmtext.setError("Please Enter End KM");
                 edtendkmtext.requestFocus();
                 return;
-            }
-
-            else if (TextUtils.isEmpty(edt_endkm_Image.getText())) {
+            } else if (TextUtils.isEmpty(edt_endkm_Image.getText())) {
                 // edt_endkm_Image.setError("Please upload End KM Image");
                 // edt_endkm_Image.requestFocus();
                 Toast.makeText(TaxiFormActivity.this, "Capture Image for End KM", Toast.LENGTH_LONG).show();
                 return;
 
-            }
-
-            else if ( stkm > endkm) {
+            } else if (stkm > endkm) {
                 edtendkmtext.setError("Endkm not lessthan Startkm");
                 edtendkmtext.requestFocus();
                 Toast.makeText(TaxiFormActivity.this, "Endkm not lessthan Startkm", Toast.LENGTH_LONG).show();
                 return;
 
-            }
-
-            else {
+            } else {
                 btn_close.setEnabled(false);
 
 
@@ -800,7 +780,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             pd.dismiss();
-           stopService(intent);
+            stopService(intent);
             //  iv_status.setVisibility(View.GONE);
             // GPSTracker.isRunning= false;
 
@@ -816,7 +796,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 if (status.equals("true")) {
                     flag = 1;
                     // db.updatedetails(keyid, edt_settaxiform_date.getText().toString(), edtproject_type.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag);
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                     Toast.makeText(TaxiFormActivity.this, "Uploaded Successfully...", Toast.LENGTH_LONG).show();
 
                     if (!b_insert) {
@@ -837,7 +817,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     btn_close.setEnabled(true);
-                   // getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
+                    // getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
 
                    /* FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/
@@ -848,7 +828,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(TaxiFormActivity.this, "Internet is not working", Toast.LENGTH_LONG).show();
                     flag = 2;
                     // db.updatedetails(keyid, edt_settaxiform_date.getText().toString(), edtproject_type.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag);
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
 
 
                     if (!b_insert) {
@@ -869,7 +849,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     btn_close.setEnabled(true);
-                  //  getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
+                    //  getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
 
                  /*   FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/
@@ -881,9 +861,9 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(TaxiFormActivity.this, "internet is very slow please try again", Toast.LENGTH_LONG).show();
                 flag = 2;
                 // db.updatedetails(keyid, edt_settaxiform_date.getText().toString(), edtproject_type.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag);
-                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
 
-                boolean b = b_insert;
+
                 if (!b_insert) {
                     b_insert = true;
 
@@ -903,7 +883,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
 
                 btn_close.setEnabled(true);
-              //  getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
+                //  getFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new TaxiFormFragment()).addToBackStack(null).commit();
 
              /*   FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();
@@ -914,6 +894,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -940,7 +921,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 if (!b_insert) {
 
-                    if(s.length()== 0){
+                    if (s.length() == 0) {
 
                         db.deleteSingleRowTaxiformData(form_no);
                     }
@@ -950,12 +931,12 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                         if (flag == 1 || flag == 2) {
                             flag = 0;
                         }
-                        if(!GPSTracker.isRunning){
+                        if (!GPSTracker.isRunning) {
 
                            /*  intent.putExtra("formno",form_no);
                              intent.putExtra("getdate", current_date);
                              intent.putExtra("empid",empid);*/
-                            if(getGPSAllowed  == 1) {
+                            if (getGPSAllowed == 1) {
                                 editor = sharedPreferences.edit();
                                 editor.putString("formno", form_no);
                                 editor.putString("getdate", current_date);
@@ -968,17 +949,16 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                         }
 
 
-                        db.addTaxiformData(new TaxiFormData(keyid,edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag,edt_siteno.getText().toString(),edt_remark.getText().toString()));
-                        incri_id=incri_id+1;
+                        db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
+                        incri_id = incri_id + 1;
 
-           /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
+                  /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
                   ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/
 
 
                     } else {
 
-
-                        db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                        db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                     }
                 }
 
@@ -1007,13 +987,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });*/
-        edt_vehicle_no.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
 
-            }
-        });
 
 
         edt_vehicle_no.addTextChangedListener(new TextWatcher() {
@@ -1033,7 +1007,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 if (!b_insert) {
 
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
 
                 }
 
@@ -1059,7 +1033,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
 
                 if (!b_insert) {
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString.toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString.toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                 }
             }
 
@@ -1083,7 +1057,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 if (!b_insert) {
 
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                 }
             }
 
@@ -1107,7 +1081,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                                               public void afterTextChanged(Editable s) {
                                                   if (!b_insert) {
 
-                                                      db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                                                      db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                                                   }
                                               }
 
@@ -1131,7 +1105,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 if (!b_insert) {
 
-                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag,edt_siteno.getText().toString(),edt_remark.getText().toString());
+                    db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), edt_startkmImage.getText().toString(), edtendkmtext.getText().toString(), edt_endkm_Image.getText().toString(), flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
                 }
             }
 
@@ -1146,8 +1120,8 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                lats  =  String.valueOf(location.getLatitude());
-                longi =  String.valueOf(location.getLongitude());
+                lats = String.valueOf(location.getLatitude());
+                longi = String.valueOf(location.getLongitude());
 
                 //   Toast.makeText(TaxiFormActivity.this,"GPS Enabled",300).show();
                 // tappend(s);
@@ -1174,13 +1148,12 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         };
 
 
-        locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         statusOfGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         //noinspection Missing Permission
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
-
 
 
     }
@@ -1214,6 +1187,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 mGoogleApiClient, this);
         Log.d("TaxiFormFragment", "Location update stopped .......................");
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -1228,18 +1202,16 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-
 
 
         try {
 
             // TaxiFormActivity.this.unregisterReceiver(broadcastReceiver);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             e.printStackTrace();
         }
@@ -1248,16 +1220,13 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
-
-
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // mContact = (Contact)getIntent().getExtras().getSerializable(EXTRA_CONTACT);
 
-            boolean status = intent.getBooleanExtra("EXTRA",false);
-            if(status == true) {
+            boolean status = intent.getBooleanExtra("EXTRA", false);
+            if (status == true) {
                 //  iv_status.setVisibility(View.VISIBLE);
                 // iv_status.setBackgroundResource(R.drawable.blink_animation);
                 // AnimationDrawable frameAnimation = (AnimationDrawable) iv_status.getBackground();
@@ -1266,7 +1235,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 // frameAnimation.start();
 
                 // Toast.makeText(TaxiFormActivity.this, "running" + "", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 //  iv_status.setVisibility(View.GONE);
                 Toast.makeText(TaxiFormActivity.this, "not running" + "", Toast.LENGTH_LONG).show();
             }
@@ -1276,9 +1245,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
-
     };
-
 
 
     /*
@@ -1417,14 +1384,11 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onLocationChanged(Location location) {
-        lats  =  String.valueOf(location.getLatitude());
-        longi =  String.valueOf(location.getLongitude());
-
+        lats = String.valueOf(location.getLatitude());
+        longi = String.valueOf(location.getLongitude());
 
 
     }
-
-
 
 
 }

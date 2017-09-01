@@ -17,7 +17,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -140,7 +142,7 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-        Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
         System.out.println(dateFormat.format(cal.getTime()));
         current_date = dateFormat.format(cal.getTime());
 
@@ -161,19 +163,37 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
         db = new DatabaseHandler(getActivity());
         setFormname = getArguments().getString("PARAM1");
 
+
+        setFormname = setFormname.replaceAll("\\s","");
+
+
         getFormlist = db.getAllChecklistwithFormno(setFormname);
         textview.setText(setFormname);
 
-      //  db. deleteFormcheckListData(setFormname);
+      // db. deleteFormcheckListData(setFormname);
 
         initLinearBind(v, getFormlist);
 
+   /*   List<FinalCheckListData> dataget=  db.getAllFinalChecklist2_Save(setFormname);
+        for(FinalCheckListData d : dataget)
+        {
+            Log.v("Tagget",d.getRemark());
+
+
+        }*/
 
 
 
          fvalue = new ArrayList<>();
         fvalue.add(new FinalCheckListData(1,"new Site","","","yes"));
-        fvalue.add(new FinalCheckListData(2,"everything in Site","","","yes"));
+        fvalue.add(new FinalCheckListData(2,"noting","","","yes"));
+        fvalue.add(new FinalCheckListData(3,"new Site data","","","no"));
+        fvalue.add(new FinalCheckListData(4,"get Site","","","no"));
+        fvalue.add(new FinalCheckListData(5,"checksite","","","yes"));
+        fvalue.add(new FinalCheckListData(6,"testsite","","","yes"));
+        fvalue.add(new FinalCheckListData(7,"my Site","","","no"));
+        fvalue.add(new FinalCheckListData(8,"everything in Site","","","yes"));
+
         if(fvalue.size() > 0)
         {
             list_header.setVisibility(View.VISIBLE);
@@ -256,7 +276,9 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
         }
 
+
         listkey.add("Status");
+
         createDynamicDatabase(getActivity(),setFormname,listkey);
 
 
@@ -555,7 +577,7 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
             }else {
                 b = true;
             }
-          // Toast.makeText(getActivity(),strings[i]+","+ s,Toast.LENGTH_LONG).show();
+
 
            // listkey.add( s);
             listvalue.add(strings[i]);
@@ -584,16 +606,31 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
         }
 */
        if(b) {
-           listvalue.add("0");
+
+
+           listvalue.add("No");
+
            insert(getActivity(), listvalue, listkey, setFormname);
            for(int i=0; i < allEds.size(); i++)
            {
                allEds.get(i).setText("");
            }
 
+           saveForm_pre(setFormname,"1");
+           //  btn_send.setFocusable(false);
+
+           for (int i=0;i<finalCheckListAdapterListview_save.getCount();i++){
+               Object k =  finalCheckListAdapterListview_save.getItem(i);
+               FinalCheckListData finalCheckListData =(FinalCheckListData)k;
+               Log.v("checkdata" ,finalCheckListData.getRemark());
+
+               db.insertFinalCheckListData_Save(new FinalCheckListData(setFormname,finalCheckListData.getsNo(),finalCheckListData.getDesc(),finalCheckListData.getSts(),finalCheckListData.getRemark(),finalCheckListData.getPhotos(),finalCheckListData.getPath(),finalCheckListData.getCount(),finalCheckListData.getFlag()));
+           }
+
        }
-     saveForm_pre(setFormname,"1");
-      //  btn_send.setFocusable(false);
+
+
+
 
 
     }
@@ -772,77 +809,6 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
 
-
-/*
-
-    private class AttachmentAdapter extends ArrayAdapter {
-
-        ArrayList<String> arrayList;
-        public AttachmentAdapter(Context context, int resource, ArrayList<String> list) {
-            super(context, resource, list);
-            this.arrayList = list;
-        }
-
-        @NonNull
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            // super.getView(position, convertView, parent);
-            AttachmentAdapter.ViewHolder viewHolder = new AttachmentAdapter.ViewHolder();
-
-            String s = arrayList.get(position);
-            if (convertView == null) {
-
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_attachment_feedbackfrag_adapter, null);
-                viewHolder.textView = (TextView) convertView.findViewById(R.id.tv_name_add_attachment_adapter);
-                viewHolder.imageView = (ImageView) convertView.findViewById(R.id.iv_delete_add_attachment_adapter);
-                convertView.setTag(viewHolder);
-
-
-            } else {
-                viewHolder = (AttachmentAdapter.ViewHolder) convertView.getTag();
-
-            }
-
-            viewHolder.textView.setText(s);
-            viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    count_addAttachment = count_addAttachment - 1;
-
-                    arrayList.remove(position);
-                    adapter_attachment.notifyDataSetChanged();
-                    ListviewHelper.getListViewSize(lst_attachment);
-                    attachmentDatas.remove(position);
-
-                    // attachment_ImageList.remove(position);
-
-
-                }
-            });
-
-
-            return convertView;
-        }
-
-        private class ViewHolder {
-            TextView textView;
-            ImageView imageView;
-
-
-        }
-
-        public void setImageInItem(int position, String imagePath) {
-            String name= arrayList.get(position);
-             arrayList.add(imagePath);
-            notifyDataSetChanged();
-        }
-
-
-    }
-*/
-
-
-
     public class FinalCheckListAdapterListview_Save extends ArrayAdapter {
         Context context;
         List<FinalCheckListData> getListArray;
@@ -865,34 +831,74 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
           //  lst_attachment =(ListView)convertView.findViewById(R.id.lstcapture_adapter);
             TextView tvSno=(TextView)convertView.findViewById(R.id.tv_sno);
             TextView tvDesc=(TextView)convertView.findViewById(R.id.tv_description);
-            TextView tvSts=(TextView)convertView.findViewById(R.id.tv_status);
-            TextView tvRemark=(TextView)convertView.findViewById(R.id.tv_remark);
+            final TextView tvSts=(TextView)convertView.findViewById(R.id.tv_status);
+            final EditText tvRemark=(EditText)convertView.findViewById(R.id.tv_remark);
             TextView ivPhotos=(TextView) convertView.findViewById(R.id.tv_photos);
 
              ivPhotos1=(TextView) convertView.findViewById(R.id.tv_photos_1);
-            /* ivPhotos2=(TextView) convertView.findViewById(R.id.tv_photos_2);
-             ivPhotos3=(TextView) convertView.findViewById(R.id.tv_photos_3);
-             ivPhotos4=(TextView) convertView.findViewById(R.id.tv_photos_4);
-             ivPhotos5=(TextView) convertView.findViewById(R.id.tv_photos_5);*/
-
-          //  lst_attachment =(ListView)convertView.findViewById(R.id.lst_final_checklist_data_adapter);
 
 
 
-            FinalCheckListData data =getListArray.get(position);
+            final FinalCheckListData data =getListArray.get(position);
                  data.setRemark(tvRemark.getText().toString());
                  data.setSts(tvSts.getText().toString());
 
+
             tvSno.setText(data.getsNo()+"");
             tvDesc.setText(data.getDesc());
-            tvSts.setText(data.getSts());
-            tvRemark.setText(data.getRemark());
+           // tvSts.setText(data.getSts());
+          //  tvRemark.setText(data.getRemark());
             //ivPhotos.setText(data.getPhotos());
-            if(data.getPhotos().equals("yes")) {
+            if(data.getPhotos().equalsIgnoreCase("yes")) {
                 ivPhotos.setBackgroundResource(android.R.drawable.ic_input_add);
+                ivPhotos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        captureImage(position);
+
+
+                    }
+                });
+            }else{
+                ivPhotos.setText("No");
             }
+            tvRemark.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    data.setRemark(tvRemark.getText().toString());
 
 
+                }
+            });
+            tvSts.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    data.setSts(tvSts.getText().toString());
+                }
+            });
+
+            finalCheckListAdapterListview_save.notifyDataSetChanged();
             if(data.getCount()!= 0){
                 ivPhotos1.setVisibility(View.VISIBLE);
                 ivPhotos1.setText(data.getCount()+"");
@@ -909,66 +915,17 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
 
-            ivPhotos.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                        captureImage(position);
-
-/*
-                            if (count_capture_Image < 5) {
-                               Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(intent, ADD_CAPTURE_IMAGE);
-                                count_capture_Image++;
-
-                                if(count_capture_Image == 0){
-                                    ivPhotos1.setVisibility(View.VISIBLE);
-                                    ivPhotos1.setText(path);
-                                }
-                                if(count_capture_Image == 1){
-                                    ivPhotos2.setVisibility(View.VISIBLE);
-                                    ivPhotos2.setText(path);
-                                }
-                                if(count_capture_Image == 2){
-                                    ivPhotos3.setVisibility(View.VISIBLE);
-                                    ivPhotos3.setText(path);
-                                }
-                                if(count_capture_Image == 3){
-                                    ivPhotos4.setVisibility(View.VISIBLE);
-                                    ivPhotos4.setText(path);
-                                }
-                                if(count_capture_Image == 4){
-                                    ivPhotos5.setVisibility(View.VISIBLE);
-                                    ivPhotos5.setText(path);
-                                }
-                            }
-
-                      *//*      adapter_attachment = new AttachmentAdapter(getActivity(), R.layout.add_attachment_feedbackfrag_adapter, attachment_ImageList);
-                            lst_attachment.setAdapter(adapter_attachment);
-                            ListviewHelper.getListViewSize(lst_attachment);
-                            adapter_attachment.notifyDataSetChanged();*//*
-
-                  else {
-
-                        Toast.makeText(getActivity(), "Maximum 5 Attachment at a time", Toast.LENGTH_LONG).show();
-
-                    }*/
-
-
-                }
-            });
 
             return convertView;
 
         }
-
-
 
     }
 
 
     public void captureImage(int pos )
     {
+
         positions = pos;
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, ADD_CAPTURE_IMAGE);

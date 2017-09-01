@@ -132,10 +132,10 @@ public class BlankFragment extends Fragment {
         dataModel.setImage(R.drawable.tds);
         list.add(dataModel);
 
-        dataModel  = new DataModel();
+      /*  dataModel  = new DataModel();
         dataModel.setText("Dynamic Form");
         dataModel.setImage(R.drawable.salary);
-        list.add(dataModel);
+        list.add(dataModel);*/
   /*      dataModel  = new DataModel();
         dataModel.setText("Taxi Form");
         dataModel.setImage(R.drawable.taxi);
