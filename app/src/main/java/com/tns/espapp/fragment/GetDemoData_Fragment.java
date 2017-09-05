@@ -244,7 +244,7 @@ public class GetDemoData_Fragment extends Fragment {
             tl.addView(tr, new TableLayout.LayoutParams(
                     ActionBar.LayoutParams.FILL_PARENT,
                     ActionBar.LayoutParams.WRAP_CONTENT));
-            getcount=getcount-key.size();
+                    getcount=getcount-key.size();
 
           /*  tr.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -273,15 +273,10 @@ public class GetDemoData_Fragment extends Fragment {
         }
 
 
-
 // finally add this to the table row
 
 
     }
-
-
-
-
 
 
     public String getForm_pre(String key ){

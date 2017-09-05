@@ -536,8 +536,6 @@ public class CheckListSavedFragment extends Fragment implements View.OnClickList
 
 
 
-
-
     private void setdate(final EditText edt) {
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         DatePickerDialog dpd = new DatePickerDialog(getActivity(),

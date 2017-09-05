@@ -224,7 +224,8 @@ public class LocationHistoryActivity extends AppCompatActivity implements SwipeR
 
             }
 
-         /* RelativeLayout rela =(RelativeLayout)convertView.findViewById(R.id.relative_lat_long_adapter);
+         /*
+          RelativeLayout rela =(RelativeLayout)convertView.findViewById(R.id.relative_lat_long_adapter);
           LinearLayout layout2 = new LinearLayout(LocationHistoryActivity.this);
           layout2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
           TextView tv1 = new TextView(LocationHistoryActivity.this);
@@ -232,7 +233,7 @@ public class LocationHistoryActivity extends AppCompatActivity implements SwipeR
           tv1.setText("No Record Found");
           layout2.addView(tv1);
           rela.addView(layout2);
-*/
+         */
             TextView formno = (TextView) convertView.findViewById(R.id.formno_adapter);
             TextView date = (TextView) convertView.findViewById(R.id.date_adapter);
             TextView lat = (TextView) convertView.findViewById(R.id.lat_adapter);
@@ -256,6 +257,7 @@ public class LocationHistoryActivity extends AppCompatActivity implements SwipeR
             } else {
                 ss = "00.000";
             }
+
 
             String sslogi = "";
             String slogi = latLongData.getLongi();

@@ -50,7 +50,6 @@ public class TaxiHistoryActivity extends AppCompatActivity {
     private ListView listview_taxirecord_history;
     private String empid,getstatus;
     private EditText editsearch;
-    private int getkey_id;
     private Typeface face;
 
     @Override
@@ -90,7 +89,6 @@ public class TaxiHistoryActivity extends AppCompatActivity {
         listview_taxirecord_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
 
 

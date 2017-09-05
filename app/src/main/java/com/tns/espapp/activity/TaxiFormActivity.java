@@ -210,7 +210,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 incri_id = datas.getId();
                 keyid = datas.getKeyid();
                 String getDate2 = datas.getSelectdate();
-                 form_no = datas.getFormno();
+                form_no = datas.getFormno();
                 String ptype = datas.getProjecttype();
                 String vehi_no = datas.getVechicleno();
                 String stkm = datas.getStartkm();
@@ -256,7 +256,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                     formated_Date = formated_Date.replaceAll("-", "");
                     paddedkeyid = String.format("%3s", keyid).replace(' ', '0');
 
-                    form_no =empid + "/" + formated_Date + "/" + paddedkeyid;
+                    form_no = empid + "/" + formated_Date + "/" + paddedkeyid;
 
                     tv_form_no.setText(form_no);
                     edt_settaxiform_date.setText(getDate2);
@@ -922,12 +922,10 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 if (!b_insert) {
 
                     if (s.length() == 0) {
-
                         db.deleteSingleRowTaxiformData(form_no);
                     }
 
                     if (s.length() == 1) {
-
                         if (flag == 1 || flag == 2) {
                             flag = 0;
                         }
@@ -950,7 +948,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
 
                         db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
-                        incri_id = incri_id + 1;
+                        incri_id = db.getLastInsertId();
 
                   /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
                   ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/
@@ -987,7 +985,6 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });*/
-
 
 
         edt_vehicle_no.addTextChangedListener(new TextWatcher() {

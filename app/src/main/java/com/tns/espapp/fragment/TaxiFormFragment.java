@@ -319,7 +319,7 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
                     edtstartkmtext.getText().clear();
                     edtendkmtext.getText().clear();
                     edt_siteno.getText().clear();
-                    edtproject_type.getText().clear();
+                    edt_remark.getText().clear();
 
                     endkmImageEncodeString = "";
                     edt_endkm_Image.getText().clear();
@@ -344,9 +344,8 @@ public class TaxiFormFragment extends Fragment implements View.OnClickListener,
                     edt_remark.setText(stremark);
 
                 }
-
-
             }
+
         } else {
 
 

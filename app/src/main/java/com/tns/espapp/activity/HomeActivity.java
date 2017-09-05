@@ -254,9 +254,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Context ctx = this; // for Activity, or Service. Otherwise simply get the context.
         String dbname = "my.db";
         db = new DatabaseHandler(this);
-
-        tv_toolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimension(largeTextSize));
+        tv_toolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(largeTextSize));
 
         navigationdrawer();
         findIDS();
@@ -266,7 +264,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             getSupportFragmentManager().beginTransaction().add(R.id.frameLayout_home_frag, HomeFragment.newInstance(1)).commit();
-
         }
         SharedPreferences preferences = getSharedPreferences("ID", Context.MODE_PRIVATE);
 
@@ -527,7 +524,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             feedBackLinearLayout.setVisibility(View.GONE);
 
         } else if (v == tv_locationmap) {
-
             /*tv_toolbar.setText("Current Location  ");*/
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new RouteMapFragment()).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
@@ -535,7 +531,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         if (v == tv_notification) {
-
           /*  tv_toolbar.setText("Notification");*/
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new ReadNotificationFragment()).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
