@@ -28,7 +28,7 @@ public class AccountStatementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_pernsonal_info, container, false);
+        view = inflater.inflate(R.layout.fragment_pernsonal_info_new, container, false);
         getLayoutsId();
 
         return view;
