@@ -328,6 +328,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteSingleRowTaxiformData_ByID(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_TAXIFOM_DATA + " WHERE " + KEY_INCRI_ID + "='" + id + "'");
+        db.close();
+    }
+
     public void delete_TaxiFormRecord() {
         SQLiteDatabase db = this.getWritableDatabase();
         //  db.execSQL("DELETE FROM " + TABLE_DASHBOARD + " WHERE " + KEY_EMAIL + "='" + value + "'");
@@ -735,6 +741,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.execSQL("delete from " + TABLE_LATLONG + " where " + KEY_LATLONG_FLAG + " = 1");
 
+        db.close();
+    }
+    public void deleteAllRowLatLongData(String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_LATLONG + " WHERE " + KEY_LATLONG_SETFORMNO + "='" + value + "'");
         db.close();
     }
 
@@ -1449,6 +1460,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+
+
     public ArrayList<HashMap<String, String>> getForm(String formname) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "select * from " + formname;
@@ -1474,21 +1487,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void insertFinalCheckListData_Save(FinalCheckListData finalCheckListData) {
+    public void insertFinalCheckListData_Save(FinalFeedBackData finalFeedBackData) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
 
-            values.put(KEYFINALCHECKLISTSAVE_SETFORMNO, finalCheckListData.getFormNo());
-            values.put(KEYFINALCHECKLISTSAVE_SNO, finalCheckListData.getsNo());
-            values.put(KEYFINALCHECKLISTSAVE_DESC, finalCheckListData.getDesc());
-            values.put(KEYFINALCHECKLISTSAVE_STS, finalCheckListData.getSts());
-            values.put(KEYFINALCHECKLISTSAVE_REMARK, finalCheckListData.getRemark());
-            values.put(KEYFINALCHECKLISTSAVE_PHOTOS, finalCheckListData.getPhotos());
-            values.put(KEYFINALCHECKLISTSAVE_PATH, finalCheckListData.getPath());
-            values.put(KEYFINALCHECKLISTSAVE_COUNT, finalCheckListData.getCount());
-            values.put(KEYFINALCHECKLISTSAVE_FLAG, finalCheckListData.getFlag());
+            values.put(KEYFINALCHECKLISTSAVE_SETFORMNO, finalFeedBackData.getFormNo());
+            values.put(KEYFINALCHECKLISTSAVE_SNO, finalFeedBackData.getsNo());
+            values.put(KEYFINALCHECKLISTSAVE_DESC, finalFeedBackData.getDesc());
+            values.put(KEYFINALCHECKLISTSAVE_STS, finalFeedBackData.getSts());
+            values.put(KEYFINALCHECKLISTSAVE_REMARK, finalFeedBackData.getRemark());
+            values.put(KEYFINALCHECKLISTSAVE_PHOTOS, finalFeedBackData.getPhotos());
+            values.put(KEYFINALCHECKLISTSAVE_PATH, finalFeedBackData.getPath());
+            values.put(KEYFINALCHECKLISTSAVE_COUNT, finalFeedBackData.getCount());
+            values.put(KEYFINALCHECKLISTSAVE_FLAG, finalFeedBackData.getFlag());
 
 
             // Inserting Row
@@ -1502,9 +1515,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public List<FinalCheckListData> getAllFinalChecklist2_Save(String formno) {
+    public List<FinalFeedBackData> getAllFinalChecklist2_Save(String formno) {
 
-        ArrayList<FinalCheckListData> list = new ArrayList<FinalCheckListData>();
+        ArrayList<FinalFeedBackData> list = new ArrayList<FinalFeedBackData>();
         // Select All Query
        // String selectQuery = "SELECT  * FROM " + TABLE_FINALCHECKLIST2SAVE;
 
@@ -1520,7 +1533,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             do {
 
-                FinalCheckListData data = new FinalCheckListData();
+                FinalFeedBackData data = new FinalFeedBackData();
                 //only one column
                 data.setFormNo(cursor.getString(1));
                 data.setsNo(cursor.getInt(2));
@@ -1541,6 +1554,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return list;
     }
+
+    public boolean updateAllFinalChecklist2_Save(String formno, String status, String remark,String path,int count) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues args = new ContentValues();
+        args.put(KEYFINALCHECKLISTSAVE_STS, status);
+        args.put(KEYFINALCHECKLISTSAVE_REMARK, remark);
+        args.put(KEYFINALCHECKLISTSAVE_PATH, path);
+        args.put(KEYFINALCHECKLISTSAVE_COUNT, count);
+
+        int i = db.update(TABLE_FINALCHECKLIST2SAVE, args, KEYFINALCHECKLISTSAVE_SETFORMNO + "=" + formno, null);
+        return i > 0;
+    }
+
 
 
 }

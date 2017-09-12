@@ -11,11 +11,9 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -25,10 +23,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.CellLocation;
-import android.telephony.PhoneStateListener;
-import android.telephony.ServiceState;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -36,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -62,8 +55,7 @@ import com.tns.espapp.fragment.BlankFragment;
 import com.tns.espapp.fragment.CheckListFragment;
 import com.tns.espapp.fragment.CheckListSavedFragment;
 import com.tns.espapp.fragment.EntitlementFragment;
-import com.tns.espapp.fragment.FeedBackFragment;
-import com.tns.espapp.fragment.FeedbackFragmentHistory;
+import com.tns.espapp.fragment.FinalFeedBackFragment;
 import com.tns.espapp.fragment.GetCheckListSavedFragment;
 import com.tns.espapp.fragment.HomeFragment;
 import com.tns.espapp.fragment.InfoBullteinFragment;
@@ -95,7 +87,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -159,6 +150,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView leaveLedgerTv;
     private TextView leaveTv;
     private TextView tv_checklist;
+
+    private TextView tv_dynamicfeedback;
     private TextView tv_setting;
     private TextView approveTv;
     private TextView leaveApprove;
@@ -256,6 +249,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         db = new DatabaseHandler(this);
         tv_toolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(largeTextSize));
 
+        //  db.updatedetails(incri_id, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString());
+        // db.updatedetails(20, "08-09-17", "16865/080917/003", "test app", "testing", "0", "16865start12464.jpg", "0", "16865end12464.jpg", 1, "0", "test");
+        // db.deleteSingleRowTaxiformData_ByID(6);
+
         navigationdrawer();
         findIDS();
         startService(new Intent(getApplication(), SendLatiLongiServerIntentService.class));
@@ -295,13 +292,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tvpersomalinfo = (TextView) findViewById(R.id.tv_personal_info);
         getTv_taxiform_record = (TextView) findViewById(R.id.taxiformrecord_history_home);
         tv_feedback = (TextView) findViewById(R.id.tv_feedback);
-        tv_feedback_history = (TextView) findViewById(R.id.tv_feedback_history);
+      //  tv_feedback_history = (TextView) findViewById(R.id.tv_feedback_history);
         tv_locationmap = (TextView) findViewById(R.id.tv_currentlocation);
         notificationButton = (Button) findViewById(R.id.notificationButton);
         tv_notification = (TextView) findViewById(R.id.tv_notification);
         tv_taxiform_home_fragment = (TextView) findViewById(R.id.tv_taxiform_home_fragment);
         tv_checklist = (TextView) findViewById(R.id.tv_checklist);
         linear_checklist_header = (LinearLayout) findViewById(R.id.linear_checklist_header);
+        tv_dynamicfeedback = (TextView) findViewById(R.id.tv_dynamicfeedback);
 
         tv_setting = (TextView) findViewById(R.id.tv_setting);
         leaveApprove = (TextView) findViewById(R.id.leaveApproveTV);
@@ -382,13 +380,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tvpersomalinfo.setOnClickListener(this);
         getTv_taxiform_record.setOnClickListener(this);
         tv_feedback.setOnClickListener(this);
-        tv_feedback_history.setOnClickListener(this);
+       // tv_feedback_history.setOnClickListener(this);
         tv_locationmap.setOnClickListener(this);
         tv_notification.setOnClickListener(this);
         notificationButton.setOnClickListener(this);
         tv_taxiform_home_fragment.setOnClickListener(this);
         tv_checklist.setOnClickListener(this);
         linear_checklist_header.setOnClickListener(this);
+        tv_dynamicfeedback.setOnClickListener(this);
 
         tv_setting.setOnClickListener(this);
         linear_checklist.setOnClickListener(this);
@@ -513,17 +512,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (v == tv_feedback) {
            /* tv_toolbar.setText("FeedBack");*/
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new FeedBackFragment()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new FinalFeedBackFragment()).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
             feedBackLinearLayout.setVisibility(View.GONE);
 
-        } else if (v == tv_feedback_history) {
-          /*  tv_toolbar.setText("FeedBack History");*/
+        }/* else if (v == tv_feedback_history) {
+          *//*  tv_toolbar.setText("FeedBack History");*//*
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new FeedbackFragmentHistory()).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
             feedBackLinearLayout.setVisibility(View.GONE);
 
-        } else if (v == tv_locationmap) {
+        }*/ else if (v == tv_locationmap) {
             /*tv_toolbar.setText("Current Location  ");*/
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new RouteMapFragment()).addToBackStack(null).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
@@ -573,7 +572,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == tv_taxiform_home_fragment) {
            /* tv_toolbar.setText("ESP");*/
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, HomeFragment.newInstance(1)).commit();
             mDrawerLayout.closeDrawer(mDrawerPane);
 
         }
@@ -644,6 +643,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
      */
         }
+      /*  if (v == tv_dynamicfeedback) {
+            // tv_toolbar.setText("Setting");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_home_frag, new FinalFeedBackFragment()).commit();
+            mDrawerLayout.closeDrawer(mDrawerPane);
+
+        }*/
 
         if (v == tv_setting) {
            // tv_toolbar.setText("Setting");

@@ -7,7 +7,7 @@ import java.util.List;
  * Created by TNS on 09-Aug-17.
  */
 
-public class FinalCheckListData {
+public class FinalFeedBackData {
 
     private String formNo;
     private int sNo;
@@ -21,7 +21,7 @@ public class FinalCheckListData {
 
     private List<String> multiphotos = new ArrayList<>();
 
-    public FinalCheckListData(String formNo,int sNo, String desc, String sts, String remark,String photos,String path,int count,int flag)
+    public FinalFeedBackData(String formNo, int sNo, String desc, String sts, String remark, String photos, String path, int count, int flag)
     {
         this.formNo=formNo;
         this.sNo = sNo;
@@ -34,7 +34,7 @@ public class FinalCheckListData {
         this.flag =flag;
     }
 
-    public FinalCheckListData(int sNo, String desc, String sts, String remark,String photos)
+    public FinalFeedBackData(int sNo, String desc, String sts, String remark, String photos)
     {
 
         this.sNo = sNo;
@@ -45,10 +45,10 @@ public class FinalCheckListData {
 
     }
 
-    public FinalCheckListData() {
+    public FinalFeedBackData() {
     }
 
-    public FinalCheckListData(ArrayList<String> multiphotos) {
+    public FinalFeedBackData(ArrayList<String> multiphotos) {
         this.multiphotos = multiphotos;
     }
 

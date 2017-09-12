@@ -26,6 +26,7 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -142,7 +143,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_taxi_form);
         //  Toolbar toolbar =(Toolbar)getActivity().findViewById(R.id.toolbar);
         // iv_status =(ImageView) toolbar. findViewById(R.id.status_taxiform);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findIDS();
      /*   if (shouldAskPermissions()) {
             askPermissions();
@@ -278,9 +279,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
-
         allEdittexform();
-
 
     }
 
@@ -904,7 +903,7 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
 
     private void allEdittexform() {
 
-        edtproject_type.addTextChangedListener(new TextWatcher() {
+       /* edtproject_type.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -931,9 +930,9 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                         }
                         if (!GPSTracker.isRunning) {
 
-                           /*  intent.putExtra("formno",form_no);
+                           *//*  intent.putExtra("formno",form_no);
                              intent.putExtra("getdate", current_date);
-                             intent.putExtra("empid",empid);*/
+                             intent.putExtra("empid",empid);*//*
                             if (getGPSAllowed == 1) {
                                 editor = sharedPreferences.edit();
                                 editor.putString("formno", form_no);
@@ -950,8 +949,8 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
                         db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
                         incri_id = db.getLastInsertId();
 
-                  /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
-                  ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*/
+                  *//*  FragmentTransaction ft = getFragmentManager().beginTransaction();
+                  ft.detach(TaxiFormFragment.this).attach(TaxiFormFragment.this).commit();*//*
 
 
                     } else {
@@ -963,28 +962,41 @@ public class TaxiFormActivity extends AppCompatActivity implements View.OnClickL
             }
 
 
-        });
+        });*/
 
-     /*   edtproject_type.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       edtproject_type.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (flag == 1 || flag == 2) {
-                        flag = 0;
-                    }
-                    if(!GPSTracker.isRunning){
+                    if (!b_insert) {
 
-                        intent.putExtra("formno",form_no);
-                        intent.putExtra("getdate", current_date);
-                        intent.putExtra("empid",empid);
-                        TaxiFormActivity.this.startService(intent);
-                    }
+                        if (flag == 1 || flag == 2) {
+                            flag = 0;
+                        }
+                        if (!GPSTracker.isRunning) {
 
-                    db.addTaxiformData(new TaxiFormData(keyid,edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag));
-                    incri_id=incri_id+1;
+
+                            if (getGPSAllowed == 1) {
+                                editor = sharedPreferences.edit();
+                                editor.putString("formno", form_no);
+                                editor.putString("getdate", current_date);
+                                editor.putString("empid", empid);
+                                editor.commit();
+
+                               startService(intent);
+
+                            }
+                        }
+
+
+                        db.addTaxiformData(new TaxiFormData(keyid, edt_settaxiform_date.getText().toString(), form_no, edtproject_type.getText().toString(), edt_vehicle_no.getText().toString(), edtstartkmtext.getText().toString(), startkmImageEncodeString, edtendkmtext.getText().toString(), endkmImageEncodeString, flag, edt_siteno.getText().toString(), edt_remark.getText().toString()));
+                        incri_id = db.getLastInsertId();
+
+
+                    }
                 }
             }
-        });*/
+        });
 
 
         edt_vehicle_no.addTextChangedListener(new TextWatcher() {

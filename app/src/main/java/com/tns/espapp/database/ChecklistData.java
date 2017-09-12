@@ -31,6 +31,8 @@ public class ChecklistData {
         this.name_value = name_value;
 
     }
+
+
     public ChecklistData(String formno, String name, String name_value, String dataType, String size, String decimal, int flag) {
         this.formno = formno;
         this.name = name;

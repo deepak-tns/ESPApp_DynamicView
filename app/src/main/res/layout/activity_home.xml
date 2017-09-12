@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:orientation="vertical">
 
                     <TextView
@@ -692,13 +692,13 @@
                         android:padding="10dp"
                         android:text="Feed Back Form" />
 
-                    <TextView
+                 <!--   <TextView
                         android:id="@+id/tv_feedback_history"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/clickpress"
                         android:padding="10dp"
-                        android:text="FeedBack History" />
+                        android:text="FeedBack History" />-->
                 </LinearLayout>
 
 
@@ -787,6 +787,18 @@
                     android:padding="10dp"
                     android:text="Setting"
                     android:visibility="visible" />
+                <TextView
+
+                    android:textColor="@color/black"
+                    android:id="@+id/tv_dynamicfeedback"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/clickpress"
+                    android:padding="10dp"
+                    android:text="Dynamic FeedBack"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
 
                 <LinearLayout
                     android:id="@+id/linear_checklist_header"
@@ -809,7 +821,9 @@
                     android:visibility="visible" />
 
 
-                <TextView
+
+
+                    <TextView
 
                     android:textColor="@color/black"
                     android:id="@+id/tv_schedule"

@@ -82,11 +82,11 @@ public class HomeFragment extends Fragment {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFrag(new ReadNotificationFragment(), "Notification");
         adapter.addFrag(new BlankFragment(), "Esp");
         adapter.addFrag(new TaxiFormFragment(), "Travelling");
-        adapter.addFrag(new FeedBackFragment(), "Feed Back");
+        adapter.addFrag(new FinalFeedBackFragment(), "Feed Back");
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
     }

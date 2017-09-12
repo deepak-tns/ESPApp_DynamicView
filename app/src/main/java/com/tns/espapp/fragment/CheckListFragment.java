@@ -391,9 +391,7 @@ public class CheckListFragment extends Fragment {
                  });
 
 
-
             }
-
 
 
             if(check_list.size() == 0){

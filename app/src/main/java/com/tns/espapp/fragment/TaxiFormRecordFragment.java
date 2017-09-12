@@ -1,8 +1,10 @@
 package com.tns.espapp.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,9 +18,14 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -84,8 +91,10 @@ public class TaxiFormRecordFragment extends Fragment {
                 "arial.ttf");
 
 
-        if (size > 0) {
-            for (TaxiFormData taxiFormData : taxiformrecordDataList) {
+        if (size > 0)
+        {
+            for (TaxiFormData taxiFormData : taxiformrecordDataList)
+            {
                 taxiFormDataArrayList.add(taxiFormData);
             }
         }
@@ -96,14 +105,16 @@ public class TaxiFormRecordFragment extends Fragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.header_listview_taxiform_record, null);
         listview_taxirecord_history.addHeaderView(view);
 
-        listview_taxirecord_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+/*        listview_taxirecord_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
 
             }
-        });
+        });*/
+
+
 
 
         editsearch = (EditText) v.findViewById(R.id.search_taxirecord);
@@ -144,6 +155,8 @@ public class TaxiFormRecordFragment extends Fragment {
         private int[] colors = new int[]{deepColor, deepColor2};
         private List<TaxiFormData> searchlist = null;
         List<TaxiFormData> taxiForm_DataArrayList;
+        private SparseBooleanArray mSelectedItemsIds;
+
 
         public TaxiFormRecordHistoryAdapter(Context context, int resource, ArrayList<TaxiFormData> latLongDatas) {
             super(context, resource, latLongDatas);
@@ -162,6 +175,7 @@ public class TaxiFormRecordFragment extends Fragment {
             ImageView status;
             TextView startkm;
             TextView endkm;
+            TextView delete;
 
 
         }
@@ -187,6 +201,8 @@ public class TaxiFormRecordFragment extends Fragment {
                 viewHolder.status = (ImageView) convertView.findViewById(R.id.iv_status_taxiadapter);
                 viewHolder.startkm = (TextView) convertView.findViewById(R.id.tv_startkm_taxiadapter);
                 viewHolder.endkm = (TextView) convertView.findViewById(R.id.tv_endkm_taxiadapter);
+                viewHolder.delete = (TextView) convertView.findViewById(R.id.tv_delete_history);
+
                 viewHolder.formno.setTypeface(face);
                 viewHolder.date.setTypeface(face);
                 viewHolder.id.setTypeface(face);
@@ -202,6 +218,7 @@ public class TaxiFormRecordFragment extends Fragment {
                 viewHolder = (ViewHolder) convertView.getTag();
 
             }
+
 
 
             getstatus = taxiFormData.getFlag() + "";
@@ -228,7 +245,7 @@ public class TaxiFormRecordFragment extends Fragment {
             }
 
 
-            viewHolder.status.setOnClickListener(new View.OnClickListener() {
+         /*   viewHolder.status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     taxiFormData = searchlist.get(position);
@@ -243,16 +260,29 @@ public class TaxiFormRecordFragment extends Fragment {
 
 
                 }
-            });
+            });*/
+
+         viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 deleteitemDialog(position);
+
+                 // getActivity(). getSupportFragmentManager().beginTransaction().add(R.id.frameLayout_home_frag, new TaxiFormRecordFragment()).commit();
+              /*       FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(TaxiFormRecordFragment.this).attach(TaxiFormRecordFragment.this).commit();
+*/
+             }
+         });
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if (getstatus.equals("1")) {
+
 
                         try {
                             if (position <= taxiFormDataArrayList.size()) {
+                                Toast.makeText(getContext(),"Please Wait",Toast.LENGTH_LONG).show();
                                 TaxiFormData taxiFormData = (TaxiFormData) adapter.getItem(position);
                                 String fromNumber = taxiFormData.getFormno();
                                 Intent intent = new Intent(getActivity(), RouteMapActivity.class);
@@ -262,17 +292,50 @@ public class TaxiFormRecordFragment extends Fragment {
                         } catch (Exception e) {
                             Log.e("Exception", e.getMessage());
                         }
-                    }
-                    else
-                    {
-                        Toast.makeText(getContext(),"Please Wait",Toast.LENGTH_LONG).show();
-                    }
+
+
+
+
+
 
                 }
             });
 
 
             return convertView;
+        }
+
+        private void deleteitemDialog(final int p){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(true);
+            builder.setTitle("Are you sure delete this item?");
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // How to remove the selected item?
+                    // adapter.remove(adapter.getItem(p));
+                    dialog.dismiss();
+                }
+
+
+            });
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // How to remove the selected item?
+                   // adapter.remove(adapter.getItem(p));
+                    taxiFormData = searchlist.get(p);
+                    db.deleteSingleRowTaxiformData_ByID(taxiFormData.getId());
+                    db.deleteAllRowLatLongData(taxiFormData.getFormno());
+                    searchlist.remove(p);
+                    TaxiFormRecordHistoryAdapter.this.notifyDataSetChanged();
+                }
+
+
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         }
 
         public void filter(String charText) {
@@ -290,6 +353,44 @@ public class TaxiFormRecordFragment extends Fragment {
             }
             notifyDataSetChanged();
         }
+
+
+
+
+        public void remove(TaxiFormData object) {
+            searchlist.remove(object);
+            notifyDataSetChanged();
+        }
+
+        public List<TaxiFormData> getTaxiForm_DataArrayList() {
+            return searchlist;
+        }
+
+        public void toggleSelection(int position) {
+            selectView(position, !mSelectedItemsIds.get(position));
+        }
+
+        public void removeSelection() {
+            mSelectedItemsIds = new SparseBooleanArray();
+            notifyDataSetChanged();
+        }
+
+        public void selectView(int position, boolean value) {
+            if (value)
+                mSelectedItemsIds.put(position, value);
+            else
+                mSelectedItemsIds.delete(position);
+            notifyDataSetChanged();
+        }
+
+        public int getSelectedCount() {
+            return mSelectedItemsIds.size();
+        }
+
+        public SparseBooleanArray getSelectedIds() {
+            return mSelectedItemsIds;
+        }
+
 
 
     }
